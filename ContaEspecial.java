@@ -51,6 +51,12 @@ public class ContaEspecial extends Conta {
 		System.out.printf("\t%d - %s (R$%.2f/R$%.2f)\n", getNumero(), getNome(), getSaldo(), limite);
 	}
 	
+	public String to_string() {
+		return String.format("Conta #%d\nSr(a). %s\nSaldo: R$%.2f\nLimite: R$%.2f", getNumero(), getNome(), getSaldo(), getLimite());
+	}
+	
+	public double getLimite() { return this.limite; }
+
 	public void cobrarJuros(double juros) {
 		if (limite < limiteMax) {
 			double devendo = (limiteMax - limite) * (juros / 100.0);

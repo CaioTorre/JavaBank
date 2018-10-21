@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+import java.lang.NullPointerException;
+
 public abstract class Conta {
 	private int numero;
 	private String nome;
@@ -22,6 +24,8 @@ public abstract class Conta {
 	
 	public String getSenha() { return this.senha; }
 	
+	public void setSenha(String s) { this.senha = s; }
+	
 	public void setNumero(int numero) {
 		this.numero = numero;
 	}
@@ -36,13 +40,13 @@ public abstract class Conta {
 		return nome;
 	}
 	
-	public void sacar(double valor) throws SaldoInvalido {
+	public void sacar(double valor) throws SaldoInvalidoException {
 		if (valor <= saldo) {
 			saldo -= valor;
 			System.out.printf("Saque de R$%.2f realizado com sucesso!\n", valor);
 			System.out.printf("Novo saldo: R$%.2f\n", saldo);
 		} else {
-			throw new SaldoInvalido();
+			throw new SaldoInvalidoException();
 			//System.out.printf("Sr(a). %s (%d) nao pode sacar R$%.2f\n", nome, numero, valor);
 		}
 		//System.out.println(spacer);
@@ -78,18 +82,26 @@ public abstract class Conta {
 		System.out.println(spacer);
 	}
 	
-	public boolean comparaSenha(String attempt) {
-		if (senha.compareTo(attempt) == 0) {
-			//System.out.println("Correct!");
-			return true;
-		} else {
-			//System.out.println("Incorrect!");
-			return false;
-		}
+	public boolean comparaSenha(String attempt) throws NullPointerException {
+		try {
+			if (senha.compareTo(attempt) == 0) {
+				//System.out.println("Correct!");
+				return true;
+			} else {
+				//System.out.println("Incorrect!");
+				return false;
+			}
+		} catch (NullPointerException npe) {
+			throw npe;
+		}	
 	}
 	
 	public void exibir() {
 		System.out.printf("\t%d - %s (R$%.2f)\n", numero, nome, saldo);
+	}
+	
+	public String to_string() {
+		return String.format("Conta #%d\nSr(a). %s\nSaldo: R$%.2f", numero, nome, saldo);
 	}
 	
 	//---------TEMPLATES---------

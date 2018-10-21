@@ -7,12 +7,16 @@ import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.BoxLayout;
+
+import java.lang.NumberFormatException;
+import java.lang.NullPointerException;
 
 public class ClientJPanel extends JPanel implements ActionListener {
 	
@@ -29,8 +33,6 @@ public class ClientJPanel extends JPanel implements ActionListener {
 		setSession(c);
 		
 		JLabel bemVindo = new JLabel("Bem vindo(a) Sr(a). " + c.getNome());
-		//super("Sistema bancario");
-		//setLayout( new FlowLayout() );
 		
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
@@ -76,6 +78,49 @@ public class ClientJPanel extends JPanel implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		
+		if ("sacar".equals(e.getActionCommand())) {
+			String input = JOptionPane.showInputDialog("Digite o valor para saque", "0.00");
+			double val;
+			try {
+				val = Double.parseDouble(input);
+				session_atual.sacar(val);
+			} catch ( NullPointerException npe ) {
+				
+			} catch ( NumberFormatException ne ) {
+				JOptionPane.showMessageDialog(null, "Favor digitar um numero!", "Erro", JOptionPane.ERROR_MESSAGE); 
+			} catch (SaldoInvalidoException se) {
+				JOptionPane.showMessageDialog(null, se.to_string(), "Erro", JOptionPane.ERROR_MESSAGE);
+			}
+		} else if ("depositar".equals(e.getActionCommand())) {
+			String input = JOptionPane.showInputDialog("Digite o valor para saque", "0.00");
+			double val;
+			try {
+				val = Double.parseDouble(input);
+				session_atual.depositar(val);
+			} catch ( NullPointerException npe ) {
+				
+			} catch ( NumberFormatException ne ) {
+				JOptionPane.showMessageDialog(null, "Favor digitar um numero!", "Erro", JOptionPane.ERROR_MESSAGE); 
+			}
+		} else if ("info".equals(e.getActionCommand())) {
+			JOptionPane.showMessageDialog(null, session_atual.to_string(), "Informacoes", JOptionPane.INFORMATION_MESSAGE);
+		} else if ("senha".equals(e.getActionCommand())) {
+			String senhaAntiga = JOptionPane.showInputDialog("Digite a senha antiga", "senha antiga");
+			try {
+				if (session_atual.comparaSenha(senhaAntiga)) {
+					String senhaNova = JOptionPane.showInputDialog("Digite a nova senha", "senha nova");
+					session_atual.setSenha(senhaNova);
+					JOptionPane.showMessageDialog(null, "Senha atualizada com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Senha atual diferente!", "Erro", JOptionPane.ERROR_MESSAGE); 
+				}
+			} catch (NullPointerException npe) {
+			
+			}
+		} else if ("logout".equals(e.getActionCommand())) {
+			setSession(null);
+			MainJPanel screen = new MainJPanel(controlling);
+			Banco.reconfigContentPane(screen);
+		}
 	}
 }
