@@ -1,13 +1,84 @@
 import java.util.Scanner;
+import java.awt.Dimension;
+import javax.swing.SwingUtilities;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+//import java.util.Exception;
+import java.util.InputMismatchException;
+
 public class Banco {
 	private final char loggedOut = 'o';
-	private Conta contas[] = new Conta[30];
-	private Adm a = new Adm();
-	private int numero_contas = 0;
+	private static Conta contas[] = new Conta[30];
+	private static Adm a = new Adm();
+	private static int numero_contas = 0;
 	
+	public static JFrame frame;
 	protected final String spacer = "----------------------------------------------------";
 	
-	public Banco() {}
+	public Banco() {
+		frame = new JFrame("Sistema Bancario");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setPreferredSize(new Dimension(400, 300));
+		
+		MainJPanel screen = new MainJPanel(frame);
+		//screen_1.setOpaque(true); //content panes must be opaque
+        frame.setContentPane(screen);
+
+        //Display the window.
+        frame.pack();
+        frame.setVisible(true);
+        
+        pushNovaContaSimples(1234, "Asduhfee");
+	}
+	
+	public static Conta pushNovaContaSimples(int numero, String nome) {
+		contas[numero_contas] = new ContaSimples(numero, nome);
+		numero_contas = numero_contas + 1;
+		return contas[numero_contas - 1];
+	}
+	
+	public static Conta pushNovaContaEspecial(int numero, String nome, double limite) {
+		contas[numero_contas] = new ContaEspecial(numero, nome, limite);
+		numero_contas = numero_contas + 1;
+		return contas[numero_contas - 1];
+	}
+	
+	public static Conta pushNovaContaPoupanca(int numero, String nome, double juros) {
+		contas[numero_contas] = new ContaPoupanca(numero, nome, juros);
+		numero_contas = numero_contas + 1;
+		return contas[numero_contas - 1];
+	}
+	
+	public int get_int(Scanner inp) {
+		int res;
+		try {
+			res = inp.nextInt();
+		} catch (InputMismatchException e) {
+			System.out.println("Por favor digite um numero");
+			return -1;
+		} finally {
+			inp.nextLine();
+		}
+		return res;
+	}
+	
+	public static Conta tentarLogin(int user, String pass) {
+		int i;
+		for (i = 0; i < numero_contas; i++) {
+			if (contas[i].getNumero() == user && contas[i].comparaSenha(pass)) {
+				return contas[i];
+			}
+		}
+		return null;
+	}
+	
+	public static void reconfigContentPane(JPanel jp) {
+		System.out.println("Called reconfig");
+		frame.setContentPane(jp);
+		frame.pack();
+		frame.setVisible(true);
+	}
 	
 	public void main(String[] args) {
 		Scanner inp = new Scanner( System.in );
@@ -28,10 +99,12 @@ public class Banco {
 			if (mode == 'c' || mode == 'C') {
 				if (session == null) {
 					System.out.println("Insira os dados a seguir");
-					
-					System.out.print("Numero..: ");
-					session_conta = inp.nextInt();
-					inp.nextLine();
+					do {
+						System.out.print("Numero..: ");
+						//session_conta = inp.nextInt();
+						//inp.nextLine();
+						session_conta = get_int(inp);
+					} while (session_conta < 0);
 					
 					System.out.print("Senha...: ");
 					session_senha = inp.nextLine();
@@ -53,8 +126,9 @@ public class Banco {
 					System.out.print("1. Realizar saque\n2. Realizar deposito\n3. Visualizar informacoes da conta\n4. Alterar senha\n5. Desconectar\n");
 					System.out.print("\n>");
 					
-					opcode = inp.nextInt();
-					inp.nextLine();
+					//opcode = inp.nextInt();
+					//inp.nextLine();
+					opcode = get_int(inp);
 
 					switch (opcode) {
 						case 1:
@@ -62,7 +136,11 @@ public class Banco {
 							double valorS = inp.nextDouble();
 							inp.nextLine();
 				
-							session.sacar(valorS);
+							try {
+								session.sacar(valorS);
+							} catch (SaldoInvalido e) {
+								System.out.println(e.to_string());
+							}
 							break;
 						case 2:
 							System.out.print("Digite o valor para deposito: ");
@@ -81,6 +159,8 @@ public class Banco {
 							mode = loggedOut;
 							session = null;
 							break;
+						case -1:
+							break;
 						default:
 							System.out.println("Opcao nao reconhecida, tente novamente...");
 							break;	
@@ -98,8 +178,9 @@ public class Banco {
 				System.out.print("6. Desconectar\n");
 				System.out.print("\n>");
 				
-				opcode = inp.nextInt();
-				inp.nextLine();
+				//opcode = inp.nextInt();
+				//inp.nextLine();
+				opcode = get_int(inp);
 				
 				switch (opcode) {
 					case 1: 
@@ -144,9 +225,15 @@ public class Banco {
 	
 	public Conta findByID() {
 		Scanner inp = new Scanner(System.in);
-		System.out.print("Digite o numero da conta: ");
-		int numero = inp.nextInt();
-		inp.nextLine();
+		int numero;
+		do {
+			System.out.print("Digite o numero da conta: ");
+		//int numero = inp.nextInt();
+		//inp.nextLine();
+		
+			numero = get_int(inp);
+		} while (numero != -1);
+		
 		int i;
 		boolean found = false;
 		Conta session = null;

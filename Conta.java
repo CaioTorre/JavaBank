@@ -36,16 +36,16 @@ public abstract class Conta {
 		return nome;
 	}
 	
-	public void sacar(double valor) {
+	public void sacar(double valor) throws SaldoInvalido {
 		if (valor <= saldo) {
 			saldo -= valor;
 			System.out.printf("Saque de R$%.2f realizado com sucesso!\n", valor);
 			System.out.printf("Novo saldo: R$%.2f\n", saldo);
 		} else {
-			System.out.printf("Sr(a). %s (%d) nao pode sacar R$%.2f\n", nome, numero, valor);
+			throw new SaldoInvalido();
+			//System.out.printf("Sr(a). %s (%d) nao pode sacar R$%.2f\n", nome, numero, valor);
 		}
-		
-		System.out.println(spacer);
+		//System.out.println(spacer);
 	}
 	
 	public void depositar(double valor) {
