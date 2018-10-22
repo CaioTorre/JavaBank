@@ -53,7 +53,7 @@ public class ContaEspecial extends Conta {
 	}
 	
 	public String to_string() {
-		return String.format("Conta #%d\nSr(a). %s\nSaldo: R$%.2f\nLimite: R$%.2f", getNumero(), getNome(), getSaldo(), getLimite());
+		return String.format("Conta especial #%d\nSr(a). %s\nSaldo: R$%.2f\nLimite: R$%.2f", getNumero(), getNome(), getSaldo(), getLimite());
 	}
 	
 	public double getLimite() { return this.limite; }

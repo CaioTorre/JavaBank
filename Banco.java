@@ -16,10 +16,31 @@ public class Banco {
 	public static JFrame frame;
 	protected final String spacer = "----------------------------------------------------";
 	
+	/*
+	private static JPanel panels[] = new JPanel[10];
+	public static final int MAIN = 0;
+	public static final int CLIENT_LOGIN = 1;
+	public static final int ADM_LOGIN = 2;
+	public static final int CLIENT = 3;
+	public static final int ADM = 4;
+	*/
+	
+	public static Adm getADM() { return master_adm; }
+	public static int getNumero_contas() { return numero_contas; }
+	public static Conta[] getContas() { return contas; }
+	
 	public Banco() {
 		frame = new JFrame("Sistema Bancario");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(300, 450));
+		frame.setPreferredSize(new Dimension(400, 450));
+		
+		/*
+		panels[MAIN] = new MainJPanel(frame);
+		panels[CLIENT_LOGIN] = new ClientLoginJPanel(frame);
+		panels[ADM_LOGIN] = new ADMLoginJPanel(frame);
+		panels[CLIENT] = new ClientJPanel(frame, null);
+		panels[ADM] = new ADMJPanel(frame);
+		*/
 		
 		MainJPanel screen = new MainJPanel(frame);
 		//screen_1.setOpaque(true); //content panes must be opaque
@@ -29,6 +50,15 @@ public class Banco {
         frame.pack();
         frame.setVisible(true);
         
+        pushNovaContaSimples(1234, "Asduhfee");
+        pushNovaContaEspecial(3456, "Especial", 20.0);
+        pushNovaContaPoupanca(6789, "Poupanca", 0.01);
+        pushNovaContaSimples(1234, "Asduhfee");
+        pushNovaContaEspecial(3456, "Especial", 20.0);
+        pushNovaContaPoupanca(6789, "Poupanca", 0.01);
+        pushNovaContaSimples(1234, "Asduhfee");
+        pushNovaContaEspecial(3456, "Especial", 20.0);
+        pushNovaContaPoupanca(6789, "Poupanca", 0.01);
         pushNovaContaSimples(1234, "Asduhfee");
         pushNovaContaEspecial(3456, "Especial", 20.0);
         pushNovaContaPoupanca(6789, "Poupanca", 0.01);
@@ -75,7 +105,7 @@ public class Banco {
 		return null;
 	}
 	
-	public static boolean tentarLoginADM(int user, String pass) {
+	public static boolean tentarLoginADM(String user, String pass) {
 		return (master_adm.tentaLogin(user, pass));
 	}
 	
@@ -85,6 +115,14 @@ public class Banco {
 		frame.pack();
 		frame.setVisible(true);
 	}
+	
+	/*
+	public static void reconfigContentPane(int panel_code) {
+		frame.setContentPane(Banco.panels[panel_code]);
+		frame.pack();
+		frame.setVisible(true);
+	}
+	*/
 	
 	public void main(String[] args) {
 		//Scanner inp = new Scanner( System.in );

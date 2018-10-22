@@ -85,21 +85,13 @@ public class ADMLoginJPanel extends JPanel implements ActionListener {
 		if ("tentar_login".equals(e.getActionCommand())) {
 			int user = 0;
 			try {
-				user = Integer.parseInt(userField.getText());
-				boolean success = Banco.tentarLoginADM(user, String.valueOf(passField.getPassword()));
+				boolean success = Banco.tentarLoginADM(userField.getText(), String.valueOf(passField.getPassword()));
 				if (success) {
 					ADMJPanel screen = new ADMJPanel(controlling);
 					Banco.reconfigContentPane(screen);
 				} else {
 					JOptionPane.showMessageDialog(null, "Combinacao nao reconhecida...", "Alerta", JOptionPane.INFORMATION_MESSAGE);
 				}
-				// Conta c = Banco.tentarLogin(user, String.valueOf(passField.getPassword()));
-				// if (c != null) {
-					// ClientJPanel screen = new ClientJPanel(controlling, c);
-					// Banco.reconfigContentPane(screen);
-				// } else {
-					// JOptionPane.showMessageDialog(null, "Combinacao nao reconhecida...", "Alerta", JOptionPane.INFORMATION_MESSAGE);
-				// }
 			} catch (NumberFormatException ie) {
 				JOptionPane.showMessageDialog(null, "Favor digitar um numero!", "Erro", JOptionPane.ERROR_MESSAGE); 
 			}

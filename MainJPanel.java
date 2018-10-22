@@ -19,8 +19,6 @@ public class MainJPanel extends JPanel implements ActionListener {
 	public MainJPanel(JFrame ctrl) {
 		System.out.println("Creating main panel");
 		controlling = ctrl;
-		//super("Sistema bancario");
-		//setLayout( new FlowLayout() );
 		
 		bCliente = new JButton("Cliente");
 		bCliente.setActionCommand("log_cliente");
@@ -38,10 +36,13 @@ public class MainJPanel extends JPanel implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		if ("log_cliente".equals(e.getActionCommand())) {
-			ClientLoginJPanel temp = new ClientLoginJPanel(controlling);
-			Banco.reconfigContentPane(temp);
-		} else {
-			System.out.println(e.getActionCommand());
+			ClientLoginJPanel screen = new ClientLoginJPanel(controlling);
+			Banco.reconfigContentPane(screen);
+			//Banco.reconfigContentPane(Banco.CLIENT_LOGIN);
+		} else if ("log_gerente".equals(e.getActionCommand())) {
+			ADMLoginJPanel screen = new ADMLoginJPanel(controlling);
+			Banco.reconfigContentPane(screen);
+			//Banco.reconfigContentPane(Banco.ADM_LOGIN);
 		}
 	}
 }
