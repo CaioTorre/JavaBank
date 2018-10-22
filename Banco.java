@@ -83,14 +83,14 @@ public class Banco {
 	}
 	
 	public void main(String[] args) {
-		Scanner inp = new Scanner( System.in );
-		char mode = loggedOut;
-		int opcode;
-		int i;
+		//Scanner inp = new Scanner( System.in );
+		//char mode = loggedOut;
+		//int opcode;
+		//int i;
 		
-		Conta session = null;
-		int session_conta;
-		String session_senha;
+		//Conta session = null;
+		//int session_conta;
+		//String session_senha;
 		
 		//while (true) {
 			//if (mode == loggedOut) {

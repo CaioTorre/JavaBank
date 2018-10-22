@@ -13,23 +13,24 @@ public class ContaEspecial extends Conta {
 		this.limiteMax = limite;
 	}
 	
-	public void sacar(double valor) {
+	public void sacar(double valor) throws SaldoInvalidoException {
 		if (valor <= getSaldo()) {
 			setSaldo(getSaldo() - valor);
-			System.out.printf("Saque de R$%.2f realizado com sucesso!\n", valor);
-			System.out.printf("Novo saldo: R$%.2f (limite: R$%.2f)\n", getSaldo(), limite);
+			//System.out.printf("Saque de R$%.2f realizado com sucesso!\n", valor);
+			//System.out.printf("Novo saldo: R$%.2f (limite: R$%.2f)\n", getSaldo(), limite);
 		} else {
 			if (valor <= getSaldo() + limite) {
 				limite = limite + getSaldo() - valor;
 				setSaldo(0.0);
-				System.out.printf("Sacando R$%.2f do limite...\n", valor);
-				System.out.printf("Novo saldo: R$%.2f (limite: R$%.2f)\n", getSaldo(), limite);
+				//System.out.printf("Sacando R$%.2f do limite...\n", valor);
+				//System.out.printf("Novo saldo: R$%.2f (limite: R$%.2f)\n", getSaldo(), limite);
 			} else {
-				System.out.printf("Sr(a). %s (%d) nao pode sacar R$%.2f\n", getNome(), getNumero(), valor);
+				throw new SaldoInvalidoException();
+				//System.out.printf("Sr(a). %s (%d) nao pode sacar R$%.2f\n", getNome(), getNumero(), valor);
 			}
 		}
 		
-		System.out.println(spacer);
+		//System.out.println(spacer);
 	}
 	
 	public void depositar(double valor) {
@@ -42,9 +43,9 @@ public class ContaEspecial extends Conta {
 		} else {
 			setSaldo(getSaldo() + valor);
 		}
-		System.out.printf("Novo saldo: R$%.2f (limite: R$%.2f)\n", getSaldo(), limite);
+		//System.out.printf("Novo saldo: R$%.2f (limite: R$%.2f)\n", getSaldo(), limite);
 		
-		System.out.println(spacer);
+		//System.out.println(spacer);
 	}
 	
 	public void exibir() {

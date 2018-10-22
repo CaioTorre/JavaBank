@@ -84,12 +84,15 @@ public class ClientJPanel extends JPanel implements ActionListener {
 			try {
 				val = Double.parseDouble(input);
 				session_atual.sacar(val);
+				JOptionPane.showMessageDialog(null, "Saque realizado com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 			} catch ( NullPointerException npe ) {
 				
 			} catch ( NumberFormatException ne ) {
 				JOptionPane.showMessageDialog(null, "Favor digitar um numero!", "Erro", JOptionPane.ERROR_MESSAGE); 
 			} catch (SaldoInvalidoException se) {
 				JOptionPane.showMessageDialog(null, se.to_string(), "Erro", JOptionPane.ERROR_MESSAGE);
+			} catch (ValorInvalidoException ve) {
+				JOptionPane.showMessageDialog(null, ve.to_string(), "Erro", JOptionPane.WARNING_MESSAGE);
 			}
 		} else if ("depositar".equals(e.getActionCommand())) {
 			String input = JOptionPane.showInputDialog("Digite o valor para saque", "0.00");
@@ -97,6 +100,7 @@ public class ClientJPanel extends JPanel implements ActionListener {
 			try {
 				val = Double.parseDouble(input);
 				session_atual.depositar(val);
+				JOptionPane.showMessageDialog(null, "Depósito realizado com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 			} catch ( NullPointerException npe ) {
 				
 			} catch ( NumberFormatException ne ) {

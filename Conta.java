@@ -40,24 +40,32 @@ public abstract class Conta {
 		return nome;
 	}
 	
-	public void sacar(double valor) throws SaldoInvalidoException {
-		if (valor <= saldo) {
-			saldo -= valor;
-			System.out.printf("Saque de R$%.2f realizado com sucesso!\n", valor);
-			System.out.printf("Novo saldo: R$%.2f\n", saldo);
+	public void sacar(double valor) throws SaldoInvalidoException, ValorInvalidoException {
+		if (valor > 0) {
+			if (valor <= saldo) {
+				saldo -= valor;
+				//System.out.printf("Saque de R$%.2f realizado com sucesso!\n", valor);
+				//System.out.printf("Novo saldo: R$%.2f\n", saldo);
+			} else {
+				throw new SaldoInvalidoException();
+				//System.out.printf("Sr(a). %s (%d) nao pode sacar R$%.2f\n", nome, numero, valor);
+			}
 		} else {
-			throw new SaldoInvalidoException();
-			//System.out.printf("Sr(a). %s (%d) nao pode sacar R$%.2f\n", nome, numero, valor);
+			throw new ValorInvalidoException();
 		}
 		//System.out.println(spacer);
 	}
 	
-	public void depositar(double valor) {
-		saldo += valor;
-		System.out.printf("Deposito de R$%.2f realizado com sucesso!\n", valor);
-		System.out.printf("Novo saldo: R$%.2f\n", saldo);
+	public void depositar(double valor) throws ValorInvalidoException {
+		if (valor > 0) {
+			saldo += valor;
+		} else {
+			throw new ValorInvalidoException();
+		}
+		//System.out.printf("Deposito de R$%.2f realizado com sucesso!\n", valor);
+		//System.out.printf("Novo saldo: R$%.2f\n", saldo);
 		
-		System.out.println(spacer);
+		//System.out.println(spacer);
 	}
 	
 	public double getSaldo() {
