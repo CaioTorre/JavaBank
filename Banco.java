@@ -10,7 +10,7 @@ import java.util.InputMismatchException;
 public class Banco {
 	private final char loggedOut = 'o';
 	private static Conta contas[] = new Conta[30];
-	private static Adm a = new Adm();
+	private static Adm master_adm = new Adm();
 	private static int numero_contas = 0;
 	
 	public static JFrame frame;
@@ -19,7 +19,7 @@ public class Banco {
 	public Banco() {
 		frame = new JFrame("Sistema Bancario");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(400, 300));
+		frame.setPreferredSize(new Dimension(300, 450));
 		
 		MainJPanel screen = new MainJPanel(frame);
 		//screen_1.setOpaque(true); //content panes must be opaque
@@ -73,6 +73,10 @@ public class Banco {
 			}
 		}
 		return null;
+	}
+	
+	public static boolean tentarLoginADM(int user, String pass) {
+		return (master_adm.tentaLogin(user, pass));
 	}
 	
 	public static void reconfigContentPane(JPanel jp) {
@@ -227,22 +231,22 @@ public class Banco {
 //		}
 	}
 	
-	public Conta findByID() {
-		Scanner inp = new Scanner(System.in);
-		int numero;
-		do {
-			System.out.print("Digite o numero da conta: ");
+	public static Conta findByID(int id) {
+		//Scanner inp = new Scanner(System.in);
+		//int numero;
+		//do {
+			//System.out.print("Digite o numero da conta: ");
 		//int numero = inp.nextInt();
 		//inp.nextLine();
 		
-			numero = get_int(inp);
-		} while (numero != -1);
+			//numero = get_int(inp);
+		//} while (numero != -1);
 		
 		int i;
 		boolean found = false;
 		Conta session = null;
 		for (i = 0; i < numero_contas && !found; i++) {
-			if (contas[i].getNumero() == numero) {
+			if (contas[i].getNumero() == id) {
 				found = true;
 				session = contas[i];
 			}

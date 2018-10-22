@@ -1,4 +1,5 @@
 import java.awt.FlowLayout;
+import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -8,6 +9,7 @@ import javax.swing.SwingConstants;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.BorderFactory;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -33,9 +35,14 @@ public class ClientJPanel extends JPanel implements ActionListener {
 		setSession(c);
 		
 		JLabel bemVindo = new JLabel("Bem vindo(a) Sr(a). " + c.getNome());
+		bemVindo.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		
-		JPanel buttons = new JPanel();
-		buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
+		JPanel container = new JPanel();
+		container.setLayout(new GridLayout(0, 1)); //Infinitas linhas, uma coluna
+		
+		JPanel buttons = new JPanel(new GridLayout(5, 1, 0, 10)); //5 linhas, uma coluna, espacamento 0x10
+		//buttons.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+		buttons.setOpaque(true);
 		
 		bSaque = new JButton("Realizar Saque");
 		bSaque.setActionCommand("sacar");
@@ -67,14 +74,15 @@ public class ClientJPanel extends JPanel implements ActionListener {
 		bLogout.addActionListener(this);
 		bLogout.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		
+		container.add(bemVindo);
 		buttons.add(bSaque);
 		buttons.add(bDeposito);
 		buttons.add(bInfo);
 		buttons.add(bSenha);
 		buttons.add(bLogout);
-		
-		add(bemVindo);
-		add(buttons);
+		container.add(buttons);
+		//add(bemVindo);
+		add(container);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -95,12 +103,12 @@ public class ClientJPanel extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(null, ve.to_string(), "Erro", JOptionPane.WARNING_MESSAGE);
 			}
 		} else if ("depositar".equals(e.getActionCommand())) {
-			String input = JOptionPane.showInputDialog("Digite o valor para saque", "0.00");
+			String input = JOptionPane.showInputDialog("Digite o valor para deposito", "0.00");
 			double val;
 			try {
 				val = Double.parseDouble(input);
 				session_atual.depositar(val);
-				JOptionPane.showMessageDialog(null, "Depósito realizado com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Deposito realizado com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 			} catch ( NullPointerException npe ) {
 				
 			} catch ( NumberFormatException ne ) {

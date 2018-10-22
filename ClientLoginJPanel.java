@@ -1,4 +1,5 @@
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -31,19 +32,23 @@ public class ClientLoginJPanel extends JPanel implements ActionListener {
 		//super("Sistema bancario");
 		//setLayout( new FlowLayout() );
 		
-		JPanel userPanel = new JPanel();
-		JPanel passPanel = new JPanel();
-		JPanel buttonsPanel = new JPanel();
+		JPanel container = new JPanel(new GridLayout(3, 2, 5, 15));
+		//JPanel userPanel = new JPanel();
+		//JPanel passPanel = new JPanel();
+		//JPanel buttonsPanel = new JPanel();
 		
 		JLabel userLabel = new JLabel("Usuario:");
 		JLabel passLabel = new JLabel("Senha:");
 		
 		userField = new JTextField(10);
+		userField.setHorizontalAlignment(JTextField.CENTER);
+		
 		passField = new JPasswordField(10);
+		passField.setHorizontalAlignment(JTextField.CENTER);
 
 		login = new JButton("Login");
 		login.setActionCommand("tentar_login");
-		login.setMnemonic(KeyEvent.VK_C);
+		login.setMnemonic(KeyEvent.VK_ACCEPT);
 		login.addActionListener(this);
 		
 		cancelar = new JButton("Cancelar");
@@ -51,16 +56,29 @@ public class ClientLoginJPanel extends JPanel implements ActionListener {
 		cancelar.setMnemonic(KeyEvent.VK_G);
 		cancelar.addActionListener(this);
 		
-		userPanel.add(userLabel);
-		userPanel.add(userField);
-		passPanel.add(passLabel);
-		passPanel.add(passField);
-		buttonsPanel.add(login);
-		buttonsPanel.add(cancelar);
+		//userPanel.add(userLabel);
+		//userPanel.add(userField);
+		//passPanel.add(passLabel);
+		//passPanel.add(passField);
+		//buttonsPanel.add(login);
+		//buttonsPanel.add(cancelar);
 		
-		add(userPanel);
-		add(passPanel);
-		add(buttonsPanel);
+		//add(userPanel);
+		//add(passPanel);
+		//add(buttonsPanel);
+		
+		container.add(userLabel);
+		container.add(userField);
+		container.add(passLabel);
+		container.add(passField);
+		container.add(login);
+		container.add(cancelar);
+		
+		//container.setAlignmentY(JComponent.CENTER_ALIGNMENT);
+		add(container);
+		
+		//userField.grabFocus();
+		userField.requestFocusInWindow();
 	}
 	
 	public void actionPerformed(ActionEvent e) {
