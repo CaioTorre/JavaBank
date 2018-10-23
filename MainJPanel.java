@@ -14,6 +14,7 @@ public class MainJPanel extends JPanel implements ActionListener {
 	public MainJPanel(JFrame ctrl) {
 		controlling = ctrl;
 		
+		Font f = new Font("SansSerif", Font.PLAIN, 28);
 		Border borda = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
 		
 		JPanel container = new JPanel();
@@ -27,24 +28,27 @@ public class MainJPanel extends JPanel implements ActionListener {
 		bCliente.setMnemonic(KeyEvent.VK_C);
 		bCliente.addActionListener(this);
 		bCliente.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		bCliente.setFont(f);
 		
 		bGerente = new JButton("Login Gerente");
 		bGerente.setActionCommand("log_gerente");
 		bGerente.setMnemonic(KeyEvent.VK_G);
 		bGerente.addActionListener(this);
 		bGerente.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		bGerente.setFont(f);
 		
 		bSair = new JButton("Sair");
 		bSair.setActionCommand("exit_prog");
 		bSair.setMnemonic(KeyEvent.VK_S);
 		bSair.addActionListener(this);
 		bSair.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		bSair.setFont(f);
 		
 		inside.add(bCliente);
 		inside.add(bGerente);
 		inside.add(bSair);
 		
-		inside.setPreferredSize(new Dimension(200, 200));
+		//inside.setPreferredSize(new Dimension(200, 200));
 		
 		Dimension minSize = new Dimension(1, 50);
 		Dimension prefSize = new Dimension(1, 100);

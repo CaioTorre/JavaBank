@@ -44,7 +44,7 @@ public class ClientJPanel extends JPanel implements ActionListener {
 		bDeposito.addActionListener(this);
 		bDeposito.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		
-		bInfo = new JButton("Visualizar informacoes da conta");
+		bInfo = new JButton("Visualizar Informacoes");
 		bInfo.setActionCommand("info");
 		bInfo.setMnemonic(KeyEvent.VK_I);
 		bInfo.addActionListener(this);
@@ -81,15 +81,14 @@ public class ClientJPanel extends JPanel implements ActionListener {
 				val = Double.parseDouble(input);
 				session_atual.sacar(val);
 				JOptionPane.showMessageDialog(null, "Saque realizado com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-			} catch ( NullPointerException npe ) {
-				
 			} catch ( NumberFormatException ne ) {
 				JOptionPane.showMessageDialog(null, "Favor digitar um numero!", "Erro", JOptionPane.ERROR_MESSAGE); 
 			} catch (SaldoInvalidoException se) {
 				JOptionPane.showMessageDialog(null, se.to_string(), "Erro", JOptionPane.ERROR_MESSAGE);
 			} catch (ValorInvalidoException ve) {
 				JOptionPane.showMessageDialog(null, ve.to_string(), "Erro", JOptionPane.WARNING_MESSAGE);
-			}
+			} catch ( NullPointerException npe ) { }
+			
 		} else if ("depositar".equals(e.getActionCommand())) {
 			String input = JOptionPane.showInputDialog("Digite o valor para deposito", "0.00");
 			double val;
@@ -97,11 +96,10 @@ public class ClientJPanel extends JPanel implements ActionListener {
 				val = Double.parseDouble(input);
 				session_atual.depositar(val);
 				JOptionPane.showMessageDialog(null, "Deposito realizado com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-			} catch ( NullPointerException npe ) {
-				
 			} catch ( NumberFormatException ne ) {
 				JOptionPane.showMessageDialog(null, "Favor digitar um numero!", "Erro", JOptionPane.ERROR_MESSAGE); 
-			}
+			} catch ( NullPointerException npe ) { }
+			
 		} else if ("info".equals(e.getActionCommand())) {
 			JOptionPane.showMessageDialog(null, session_atual.to_string(), "Informacoes", JOptionPane.INFORMATION_MESSAGE);
 		} else if ("senha".equals(e.getActionCommand())) {
@@ -114,9 +112,8 @@ public class ClientJPanel extends JPanel implements ActionListener {
 				} else {
 					JOptionPane.showMessageDialog(null, "Senha atual diferente!", "Erro", JOptionPane.ERROR_MESSAGE); 
 				}
-			} catch (NullPointerException npe) {
+			} catch (NullPointerException npe) { }
 			
-			}
 		} else if ("logout".equals(e.getActionCommand())) {
 			setSession(null);
 			MainJPanel screen = new MainJPanel(controlling);

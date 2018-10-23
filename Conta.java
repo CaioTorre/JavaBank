@@ -59,17 +59,17 @@ public abstract class Conta {
 		this.saldo = saldo;
 	}
 	
-	public void alterarSenha() {
+	public void alterarSenha(String senhaNova) {
 		//Scanner inp = new Scanner( System.in );
 		//System.out.print("Digite a senha antiga: ");
 		//String senhaAntiga = inp.nextLine();
-		if (comparaSenha(senhaAntiga)) {
+		//if (comparaSenha(senhaAntiga)) {
 			//System.out.print("Digite a nova senha: ");
-			this.senha = inp.nextLine();
+			//this.senha = inp.nextLine();
 			//System.out.println("Senha atualizada com sucesso!");
-		} else {
+		//} else {
 			//System.out.println("Senha antiga difere!");
-		}
+		//}
 		//System.out.println(spacer);
 	}
 	

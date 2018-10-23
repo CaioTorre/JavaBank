@@ -122,7 +122,7 @@ public class Banco {
 	}
 	*/
 	
-	public void main(String[] args) { }
+	//public void main(String[] args) { }
 	
 	public static Conta findByID(int id) {
 		int i;

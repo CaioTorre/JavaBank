@@ -19,6 +19,7 @@ public class ClientLoginJPanel extends JPanel implements ActionListener {
 	public ClientLoginJPanel(JFrame ctrl) {
 		controlling = ctrl;
 		
+		Font f = new Font("SansSerif", Font.PLAIN, 28);
 		Border borda = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
 		
 		JPanel bigContainer = new JPanel();
@@ -27,27 +28,33 @@ public class ClientLoginJPanel extends JPanel implements ActionListener {
 		JLabel cred = new JLabel("Insira suas credenciais");
 		cred.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		
-		JPanel container = new JPanel(new GridLayout(3, 2, 5, 15));
+		JPanel container = new JPanel(new GridLayout(3, 2, 10, 10));
 		container.setBorder(borda);
 		
-		JLabel userLabel = new JLabel("Numero da conta:");
+		JLabel userLabel = new JLabel("Conta:");
+		userLabel.setFont(f);
 		JLabel passLabel = new JLabel("Senha:");
+		passLabel.setFont(f);
 		
 		userField = new JTextField(10);
 		userField.setHorizontalAlignment(JTextField.CENTER);
+		userField.setFont(f);
 		
 		passField = new JPasswordField(10);
 		passField.setHorizontalAlignment(JTextField.CENTER);
+		passField.setFont(f);
 
 		login = new JButton("Login");
 		login.setActionCommand("tentar_login");
 		login.setMnemonic(KeyEvent.VK_ACCEPT);
 		login.addActionListener(this);
+		login.setFont(f);
 		
 		cancelar = new JButton("Cancelar");
 		cancelar.setActionCommand("cancelar_login");
 		cancelar.setMnemonic(KeyEvent.VK_G);
 		cancelar.addActionListener(this);
+		cancelar.setFont(f);
 		
 		container.add(userLabel);
 		container.add(userField);
