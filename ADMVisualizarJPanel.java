@@ -20,7 +20,6 @@ public class ADMVisualizarJPanel extends JPanel implements ActionListener {
 		
 		JPanel contas_campo = new JPanel();
 		contas_campo.setSize(400,400);
-		//contas_campo.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 		contas_campo.setLayout(new GridLayout(0, 1, 0, 5));
 		contas_campo.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		
@@ -28,7 +27,8 @@ public class ADMVisualizarJPanel extends JPanel implements ActionListener {
 		JLabel conta_atual;
 		int i;
 		for (i = 0; i < n_contas; i++) {
-			//System.out.printf("Adding (%d) - %s\n", i, contas_as_strings[i]);
+			//Usando HTML para inserir quebras de linha dentro do texto
+			//Substitui as quebras de linha tradicionais (\n) por quebras de linha em HTML (<br>) usando RegExp
 			conta_atual = new JLabel("<html><div style='text-align: center;'>" + contas_as_strings[i].replaceAll("\n", "<br>") + "</div></html>");
 			conta_atual.setHorizontalAlignment(JLabel.CENTER);
 			conta_atual.setBorder(borda);
@@ -44,19 +44,17 @@ public class ADMVisualizarJPanel extends JPanel implements ActionListener {
 		bRetorno.setActionCommand("voltar");
 		bRetorno.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		
-		//getContentPane().add(campo, BorderLayout.CENTER);
-		//add(bRetorno);
 		container.add(campo, BorderLayout.CENTER);
 		container.add(bRetorno);
 		
 		add(container);
+		Banco.getMainFrame().getRootPane().setDefaultButton(bRetorno);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		if ("voltar".equals(e.getActionCommand())) {
 			ADMJPanel screen = new ADMJPanel(controlling);
 			Banco.reconfigContentPane(screen);
-			//Banco.reconfigContentPane(Banco.CLIENT_LOGIN);
 		}
 	}
 }

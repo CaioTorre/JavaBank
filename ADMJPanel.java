@@ -25,7 +25,6 @@ public class ADMJPanel extends JPanel implements ActionListener {
 		container.setLayout(new GridLayout(0, 1)); //Infinitas linhas, uma coluna
 		
 		JPanel buttons = new JPanel(new GridLayout(0, 1, 0, 10)); //Infinitas linhas, 1 coluna, espacamento 0x10
-		//buttons.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 		buttons.setOpaque(true);
 		
 		bNovaConta = new JButton("Criar nova conta");
@@ -72,14 +71,13 @@ public class ADMJPanel extends JPanel implements ActionListener {
 		buttons.add(bVisualizarTodas);
 		buttons.add(bLogout);
 		container.add(buttons);
-		//add(bemVindo);
+		
 		add(container);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		if ("adm_nova_conta".equals(action)) {
-			//Banco.getADM().criarNovaConta();
 			ADMNovaContaJPanel screen = new ADMNovaContaJPanel(controlling, Banco.getADM());
 			Banco.reconfigContentPane(screen);
 			
@@ -108,7 +106,9 @@ public class ADMJPanel extends JPanel implements ActionListener {
 			try {
 				String input = JOptionPane.showInputDialog("Digite a porcentagem para cobranca de juros", "0.0");
 				double j = Double.parseDouble(input);
+				
 				if (j <= 0.0) { throw new ValorInvalidoException(); }
+				
 				int cobrados = Banco.getADM().cobrarJuros(j);
 				if (cobrados == 0) {
 					JOptionPane.showMessageDialog(null, "Nenhuma conta estava em divida", "Aviso", JOptionPane.WARNING_MESSAGE);
@@ -116,6 +116,7 @@ public class ADMJPanel extends JPanel implements ActionListener {
 					char plural = (cobrados == 1 ? '\0' : 's');
 					JOptionPane.showMessageDialog(null, String.format("Juros cobrados com sucesso (%d conta%c debitada%c)", cobrados, plural, plural), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 				}
+				
 			} catch (NumberFormatException ie) {
 				JOptionPane.showMessageDialog(null, "Favor digitar um numero!", "Erro", JOptionPane.ERROR_MESSAGE); 
 			} catch (ValorInvalidoException vie) {

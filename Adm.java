@@ -13,7 +13,6 @@ public class Adm {
 	}
 	
 	public boolean tentaLogin(String user, String pass) {
-		//System.out.printf("user = (%s) --- pass = (%s)\n", user, pass);
 		if (user.equals(this.user) && comparaSenha(pass)) {
 			this.loginState = true;
 			return true;
@@ -21,15 +20,11 @@ public class Adm {
 		return false;
 	}
 	
-	public void logOut() {
-		this.loginState = false;
-	}
+	public void logOut() { this.loginState = false; }
 	
 	public String getNome() { return this.nome; }
 	
-	public boolean comparaSenha(String tentativa) {
-		return (tentativa.equals(this.pass));
-	}
+	public boolean comparaSenha(String tentativa) { return (tentativa.equals(this.pass)); }
 	
 	public Conta criarNovaContaSimples(int numero, String nome) throws IDJaEncontradoException {
 		if (this.loginState) {
@@ -95,55 +90,4 @@ public class Adm {
 		}
 		return cobrados;
 	}
-	/*
-			// Scanner inp = new Scanner( System.in );
-			
-			String nome;
-			int numero;
-			char mode;
-			
-			// System.out.print("Criar conta simples (S), especial (E) ou poupanca (P)? ");
-			// mode = inp.nextLine().charAt(0);
-			
-			System.out.print("Nome da conta..: ");
-			// nome = inp.nextLine();
-			System.out.print("Numero da conta: ");
-			// numero = inp.nextInt();
-			// inp.nextLine();
-			
-			switch (mode) {// (mode == 'e' || mode == 'E')
-				case 's':
-				case 'S':
-					// return null;
-					// return new ContaSimples(numero, nome);
-					// break;
-					return Banco.pushNovaContaSimples(numero, nome);
-				case 'e':
-				case 'E':
-					double limite;
-					System.out.print("Limite da conta: ");
-					// limite = inp.nextDouble();
-					// inp.nextLine();
-					
-					// return null;
-					return new ContaEspecial(numero, nome, limite);
-					// break;
-					
-				case 'p':
-				case 'P':
-					double juros;
-					System.out.print("Taxa de juros (rendimento): ");
-					// juros = inp.nextDouble();
-					// inp.nextLine();
-					
-					// return null;
-					return new ContaPoupanca(numero, nome, juros);
-					// break;
-					
-				default:
-					System.out.println("Tipo de conta nao reconhecido");
-					break;
-			}
-			
-			return null; */
 }

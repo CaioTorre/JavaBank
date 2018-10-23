@@ -30,7 +30,6 @@ public class ClientJPanel extends JPanel implements ActionListener {
 		container.setLayout(new GridLayout(0, 1)); //Infinitas linhas, uma coluna
 		
 		JPanel buttons = new JPanel(new GridLayout(5, 1, 0, 10)); //5 linhas, uma coluna, espacamento 0x10
-		//buttons.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 		buttons.setOpaque(true);
 		
 		bSaque = new JButton("Realizar Saque");
@@ -70,7 +69,7 @@ public class ClientJPanel extends JPanel implements ActionListener {
 		buttons.add(bSenha);
 		buttons.add(bLogout);
 		container.add(buttons);
-		//add(bemVindo);
+		
 		add(container);
 	}
 	

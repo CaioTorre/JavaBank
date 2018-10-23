@@ -21,8 +21,6 @@ public class ClientLoginJPanel extends JPanel implements ActionListener {
 		
 		Border borda = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
 		
-		//super("Sistema bancario");
-		//setLayout( new FlowLayout() );
 		JPanel bigContainer = new JPanel();
 		bigContainer.setLayout(new BoxLayout(bigContainer, BoxLayout.Y_AXIS));
 		
@@ -31,9 +29,6 @@ public class ClientLoginJPanel extends JPanel implements ActionListener {
 		
 		JPanel container = new JPanel(new GridLayout(3, 2, 5, 15));
 		container.setBorder(borda);
-		//JPanel userPanel = new JPanel();
-		//JPanel passPanel = new JPanel();
-		//JPanel buttonsPanel = new JPanel();
 		
 		JLabel userLabel = new JLabel("Numero da conta:");
 		JLabel passLabel = new JLabel("Senha:");
@@ -73,7 +68,6 @@ public class ClientLoginJPanel extends JPanel implements ActionListener {
 		bigContainer.add(container);
 		
 		add(bigContainer);
-		//add(container);
 		
 		Banco.getMainFrame().getRootPane().setDefaultButton(login);
 		EventQueue.invokeLater(new Runnable() {
@@ -91,19 +85,23 @@ public class ClientLoginJPanel extends JPanel implements ActionListener {
 			try {
 				user = Integer.parseInt(userField.getText());
 				String pass = String.valueOf(passField.getPassword());
+				
 				if (pass.equals("")) { throw new StringVaziaException(); }
 				Conta c = Banco.tentarLogin(user, pass);
+				
 				if (c != null) {
 					ClientJPanel screen = new ClientJPanel(controlling, c);
 					Banco.reconfigContentPane(screen);
 				} else {
 					JOptionPane.showMessageDialog(null, "Combinacao nao reconhecida...", "Alerta", JOptionPane.INFORMATION_MESSAGE);
 				}
+				
 			} catch (NumberFormatException ie) {
 				JOptionPane.showMessageDialog(null, "Favor digitar um numero de conta!", "Erro", JOptionPane.ERROR_MESSAGE); 
 			} catch (StringVaziaException sve) {
 				JOptionPane.showMessageDialog(null, "Campo Senha nao pode estar vazio", "Erro", JOptionPane.ERROR_MESSAGE); 
 			}
+			
 		} else if ("cancelar_login".equals(e.getActionCommand())) {
 			MainJPanel screen = new MainJPanel(controlling);
 			Banco.reconfigContentPane(screen);
