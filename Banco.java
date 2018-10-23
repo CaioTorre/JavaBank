@@ -28,6 +28,7 @@ public class Banco {
 	public static Adm getADM() { return master_adm; }
 	public static int getNumero_contas() { return numero_contas; }
 	public static Conta[] getContas() { return contas; }
+	public static JFrame getMainFrame() { return frame; }
 	
 	public Banco() {
 		frame = new JFrame("Sistema Bancario");
@@ -43,25 +44,14 @@ public class Banco {
 		*/
 		
 		MainJPanel screen = new MainJPanel(frame);
-		//screen_1.setOpaque(true); //content panes must be opaque
         frame.setContentPane(screen);
-
-        //Display the window.
         frame.pack();
         frame.setVisible(true);
+        frame.setResizable(false);
         
-        pushNovaContaSimples(1234, "Asduhfee");
-        pushNovaContaEspecial(3456, "Especial", 20.0);
-        pushNovaContaPoupanca(6789, "Poupanca", 0.01);
-        pushNovaContaSimples(1234, "Asduhfee");
-        pushNovaContaEspecial(3456, "Especial", 20.0);
-        pushNovaContaPoupanca(6789, "Poupanca", 0.01);
-        pushNovaContaSimples(1234, "Asduhfee");
-        pushNovaContaEspecial(3456, "Especial", 20.0);
-        pushNovaContaPoupanca(6789, "Poupanca", 0.01);
-        pushNovaContaSimples(1234, "Asduhfee");
-        pushNovaContaEspecial(3456, "Especial", 20.0);
-        pushNovaContaPoupanca(6789, "Poupanca", 0.01);
+        pushNovaContaSimples(123, "Asduhfee");
+        pushNovaContaEspecial(456, "Especial", 20.0);
+        pushNovaContaPoupanca(789, "Poupanca", 0.01);
 	}
 	
 	public static Conta pushNovaContaSimples(int numero, String nome) {
@@ -97,12 +87,22 @@ public class Banco {
 	
 	public static Conta tentarLogin(int user, String pass) {
 		int i;
-		for (i = 0; i < numero_contas; i++) {
-			if (contas[i].getNumero() == user && contas[i].comparaSenha(pass)) {
+		for (i = 0; i < Banco.numero_contas; i++) {
+			if (Banco.contas[i].getNumero() == user && Banco.contas[i].comparaSenha(pass)) {
 				return contas[i];
 			}
 		}
 		return null;
+	}
+	
+	public static boolean checkForID(int id) {
+		int i;
+		for (i = 0; i < Banco.numero_contas; i++) {
+			if (Banco.contas[i].getNumero() == id) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public static boolean tentarLoginADM(String user, String pass) {
@@ -110,7 +110,7 @@ public class Banco {
 	}
 	
 	public static void reconfigContentPane(JPanel jp) {
-		System.out.println("Called reconfig");
+		//System.out.println("Called reconfig");
 		frame.setContentPane(jp);
 		frame.pack();
 		frame.setVisible(true);

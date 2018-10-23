@@ -1,24 +1,10 @@
-import java.awt.FlowLayout;
 import java.awt.*;
-/*import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JComponent;
-import javax.swing.SwingConstants;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.BorderFactory;
-*/
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
+import javax.swing.border.*;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
-import javax.swing.BoxLayout;
 
 import java.lang.NumberFormatException;
 import java.lang.NullPointerException;
@@ -150,48 +136,73 @@ public class ADMNovaContaJPanel extends JPanel implements ActionListener {
 		
 		container.add(panelBotoes);
 		//ADD
+		
+		container.setPreferredSize(new Dimension(350, 400));
+		
 		add(container);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
+		
 		if (action.equals("config_conta_simples")) {
 			config_tipo = 0;
 			tLimite.setEditable(false);
 			tJuros.setEditable(false);
-			System.out.println("Disabling all");
+			
 		} else if (action.equals("config_conta_especial")) {
 			config_tipo = 1;
 			tLimite.setEditable(true);
 			tJuros.setEditable(false);
-			System.out.println("Disabling 1");
+			
 		} else if (action.equals("config_conta_poupanca")) {
 			config_tipo = 2;
 			tLimite.setEditable(false);
 			tJuros.setEditable(true);
-			System.out.println("Disabling 2");
 			
 		} else if (action.equals("config_confirma")) {
 			int numero;
 			String nome;
+			String campo_erro = "";
 			double limite;
 			double juros;
-			if (config_tipo == 0) {
-				try {
-					nome = tNome.getText();
-					numero = Integer.parseInt(tNumero.getText());
-					Conta t = a.criarNovaContaSimples(numero, nome);
-					if (t != null) {
-						JOptionPane.showMessageDialog(null, "Sucesso ao criar a conta", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-						ADMJPanel screen = new ADMJPanel(controlling);
-						Banco.reconfigContentPane(screen);
-					} else {
-						JOptionPane.showMessageDialog(null, "Falha ao criar a conta", "Erro", JOptionPane.INFORMATION_MESSAGE);
-					}
-				} catch (NumberFormatException ie) {
-					JOptionPane.showMessageDialog(null, "Favor digitar um numero!", "Erro", JOptionPane.ERROR_MESSAGE); 
+			Conta t = null;
+			
+			try {
+				campo_erro = "Nome";
+				nome = tNome.getText();
+				if (nome.equals("")) { throw new StringVaziaException(); }
+				campo_erro = "Numero";
+				numero = Integer.parseInt(tNumero.getText());
+				
+				if (config_tipo == 0) {
+					t = a.criarNovaContaSimples(numero, nome);
+				} else if (config_tipo == 1) {
+					campo_erro = "Limite";
+					limite = Double.parseDouble(tLimite.getText());
+					t = a.criarNovaContaEspecial(numero, nome, limite);
+				} else if (config_tipo == 2) {
+					campo_erro = "Juros";
+					juros = Double.parseDouble(tJuros.getText());
+					t = a.criarNovaContaPoupanca(numero, nome, juros);
 				}
+				
+				if (t != null) {
+					JOptionPane.showMessageDialog(null, "Sucesso ao criar a conta", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+					ADMJPanel screen = new ADMJPanel(controlling);
+					Banco.reconfigContentPane(screen);
+				} else {
+					JOptionPane.showMessageDialog(null, "Falha ao criar a conta", "Erro", JOptionPane.ERROR_MESSAGE);
+				}
+				
+			} catch (NumberFormatException ie) {
+				JOptionPane.showMessageDialog(null, "Favor digitar um numero (campo " + campo_erro + ")", "Erro", JOptionPane.ERROR_MESSAGE); 
+			} catch (IDJaEncontradoException ide) {
+				JOptionPane.showMessageDialog(null, ide.to_string(), "Erro", JOptionPane.ERROR_MESSAGE); 
+			} catch (StringVaziaException sve) {
+				JOptionPane.showMessageDialog(null, "O campo " + campo_erro + " nao pode estar vazio", "Erro", JOptionPane.ERROR_MESSAGE); 
 			}
+			
 		} else if (action.equals("config_cancela")) {
 			ADMJPanel screen = new ADMJPanel(controlling);
 			Banco.reconfigContentPane(screen);

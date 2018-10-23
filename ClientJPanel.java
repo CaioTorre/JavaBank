@@ -1,21 +1,10 @@
-import java.awt.FlowLayout;
 import java.awt.*;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JComponent;
-import javax.swing.SwingConstants;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.BorderFactory;
+import javax.swing.*;
+import javax.swing.border.*;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
-import javax.swing.BoxLayout;
 
 import java.lang.NumberFormatException;
 import java.lang.NullPointerException;

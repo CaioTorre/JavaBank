@@ -114,5 +114,5 @@ public abstract class Conta {
 	
 	//---------TEMPLATES---------
 	public void incrementarRendimentos() {}
-	public void cobrarJuros(double juros) {}//{System.out.printf("Using base function for acc %d\n", this.numero);}
+	public boolean cobrarJuros(double juros) { return false; }//{System.out.printf("Using base function for acc %d\n", this.numero);}
 }

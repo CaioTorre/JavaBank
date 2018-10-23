@@ -1,21 +1,10 @@
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.*;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
 
 import java.lang.NumberFormatException;
 
@@ -29,13 +18,17 @@ public class ADMLoginJPanel extends JPanel implements ActionListener {
 	
 	public ADMLoginJPanel(JFrame ctrl) {
 		controlling = ctrl;
-		//super("Sistema bancario");
-		//setLayout( new FlowLayout() );
+		
+		Border borda = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+
+		JPanel bigContainer = new JPanel();
+		bigContainer.setLayout(new BoxLayout(bigContainer, BoxLayout.Y_AXIS));
+		
+		JLabel cred = new JLabel("Insira suas credenciais");
+		cred.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		
 		JPanel container = new JPanel(new GridLayout(3, 2, 5, 15));
-		//JPanel userPanel = new JPanel();
-		//JPanel passPanel = new JPanel();
-		//JPanel buttonsPanel = new JPanel();
+		container.setBorder(borda);
 		
 		JLabel userLabel = new JLabel("Usuario:");
 		JLabel passLabel = new JLabel("Senha:");
@@ -56,17 +49,6 @@ public class ADMLoginJPanel extends JPanel implements ActionListener {
 		cancelar.setMnemonic(KeyEvent.VK_G);
 		cancelar.addActionListener(this);
 		
-		//userPanel.add(userLabel);
-		//userPanel.add(userField);
-		//passPanel.add(passLabel);
-		//passPanel.add(passField);
-		//buttonsPanel.add(login);
-		//buttonsPanel.add(cancelar);
-		
-		//add(userPanel);
-		//add(passPanel);
-		//add(buttonsPanel);
-		
 		container.add(userLabel);
 		container.add(userField);
 		container.add(passLabel);
@@ -74,26 +56,48 @@ public class ADMLoginJPanel extends JPanel implements ActionListener {
 		container.add(login);
 		container.add(cancelar);
 		
-		//container.setAlignmentY(JComponent.CENTER_ALIGNMENT);
-		add(container);
+		container.setPreferredSize(new Dimension(350, 200));
 		
-		//userField.grabFocus();
-		userField.requestFocusInWindow();
+		Dimension minSize = new Dimension(1, 50);
+		Dimension prefSize = new Dimension(1, 100);
+		Dimension maxSize = new Dimension(1, 150);
+		
+		bigContainer.add(new Box.Filler(minSize, minSize, minSize));
+		bigContainer.add(cred);
+		bigContainer.add(new Box.Filler(minSize, prefSize, maxSize));
+		bigContainer.add(container);
+		
+		add(bigContainer);
+		
+		Banco.getMainFrame().getRootPane().setDefaultButton(login);
+		EventQueue.invokeLater(new Runnable() {
+		   @Override
+			 public void run() {
+				 userField.grabFocus();
+				 userField.requestFocus();
+			 }
+		});
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		if ("tentar_login".equals(e.getActionCommand())) {
 			int user = 0;
+			String campo_erro = "Usuario";
 			try {
-				boolean success = Banco.tentarLoginADM(userField.getText(), String.valueOf(passField.getPassword()));
+				String username = userField.getText();
+				if (username.equals("")) { throw new StringVaziaException(); }
+				campo_erro = "Senha";
+				String password = String.valueOf(passField.getPassword());
+				if (password.equals("")) { throw new StringVaziaException(); }
+				boolean success = Banco.tentarLoginADM(username, password);
 				if (success) {
 					ADMJPanel screen = new ADMJPanel(controlling);
 					Banco.reconfigContentPane(screen);
 				} else {
 					JOptionPane.showMessageDialog(null, "Combinacao nao reconhecida...", "Alerta", JOptionPane.INFORMATION_MESSAGE);
 				}
-			} catch (NumberFormatException ie) {
-				JOptionPane.showMessageDialog(null, "Favor digitar um numero!", "Erro", JOptionPane.ERROR_MESSAGE); 
+			} catch (StringVaziaException sve) {
+				JOptionPane.showMessageDialog(null, "Campo " + campo_erro + " nao pode estar vazio", "Erro", JOptionPane.ERROR_MESSAGE); 
 			}
 		} else if ("cancelar_login".equals(e.getActionCommand())) {
 			MainJPanel screen = new MainJPanel(controlling);

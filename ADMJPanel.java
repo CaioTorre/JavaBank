@@ -1,21 +1,10 @@
-import java.awt.FlowLayout;
 import java.awt.*;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JComponent;
-import javax.swing.SwingConstants;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.BorderFactory;
+import javax.swing.*;
+import javax.swing.border.*;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
-import javax.swing.BoxLayout;
 
 import java.lang.NumberFormatException;
 import java.lang.NullPointerException;
@@ -93,23 +82,46 @@ public class ADMJPanel extends JPanel implements ActionListener {
 			//Banco.getADM().criarNovaConta();
 			ADMNovaContaJPanel screen = new ADMNovaContaJPanel(controlling, Banco.getADM());
 			Banco.reconfigContentPane(screen);
+			
 		} else if ("adm_visualizar_todas".equals(action)) {
 			String[] contas_strings = Banco.getADM().getContasString();
 			ADMVisualizarJPanel screen = new ADMVisualizarJPanel(controlling, contas_strings, Banco.getNumero_contas());
 			Banco.reconfigContentPane(screen);
+			
 		} else if ("adm_visualizar_conta".equals(action)) {
-			//try {
+			try {
 				String input = JOptionPane.showInputDialog("Digite o codigo para consulta", "0000");
-				try {
-					int id = Integer.parseInt(input);
-					Conta c = Banco.findByID(id);
-					JOptionPane.showMessageDialog(null, c.to_string(), "Informacoes", JOptionPane.INFORMATION_MESSAGE);
-				} catch (NullPointerException npe) {
-					JOptionPane.showMessageDialog(null, "Conta nao encontrada...", "Erro", JOptionPane.ERROR_MESSAGE);
-				} catch (NumberFormatException ie) {
-					JOptionPane.showMessageDialog(null, "Favor digitar um numero!", "Erro", JOptionPane.ERROR_MESSAGE); 
+				int id = Integer.parseInt(input);
+				Conta c = Banco.findByID(id);
+				JOptionPane.showMessageDialog(null, c.to_string(), "Informacoes", JOptionPane.INFORMATION_MESSAGE);
+			} catch (NullPointerException npe) {
+				JOptionPane.showMessageDialog(null, "Conta nao encontrada...", "Erro", JOptionPane.ERROR_MESSAGE);
+			} catch (NumberFormatException ie) {
+				JOptionPane.showMessageDialog(null, "Favor digitar um numero!", "Erro", JOptionPane.ERROR_MESSAGE); 
+			}
+			
+		} else if ("adm_incr_rendimentos".equals(action)) {
+			Banco.getADM().incrementarRendimentos();
+			JOptionPane.showMessageDialog(null, "Rendimentos incrementados com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+			
+		} else if ("adm_cobrar_juros".equals(action)) {
+			try {
+				String input = JOptionPane.showInputDialog("Digite a porcentagem para cobranca de juros", "0.0");
+				double j = Double.parseDouble(input);
+				if (j <= 0.0) { throw new ValorInvalidoException(); }
+				int cobrados = Banco.getADM().cobrarJuros(j);
+				if (cobrados == 0) {
+					JOptionPane.showMessageDialog(null, "Nenhuma conta estava em divida", "Aviso", JOptionPane.WARNING_MESSAGE);
+				} else {
+					char plural = (cobrados == 1 ? '\0' : 's');
+					JOptionPane.showMessageDialog(null, String.format("Juros cobrados com sucesso (%d conta%c debitada%c)", cobrados, plural, plural), "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 				}
-			//}
+			} catch (NumberFormatException ie) {
+				JOptionPane.showMessageDialog(null, "Favor digitar um numero!", "Erro", JOptionPane.ERROR_MESSAGE); 
+			} catch (ValorInvalidoException vie) {
+				JOptionPane.showMessageDialog(null, "Favor digitar um valor valido (positivo)!", "Erro", JOptionPane.ERROR_MESSAGE); 
+			}
+			
 		} else if ("adm_logout".equals(action)) {
 			Banco.getADM().logOut();
 			MainJPanel screen = new MainJPanel(controlling);

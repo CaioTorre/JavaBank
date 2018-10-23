@@ -1,11 +1,6 @@
-import java.awt.FlowLayout;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.*;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -13,36 +8,68 @@ import java.awt.event.KeyEvent;
 
 public class MainJPanel extends JPanel implements ActionListener {
 	
-	protected JButton bCliente, bGerente;
+	protected JButton bCliente, bGerente, bSair;
 	protected JFrame controlling;
 	
 	public MainJPanel(JFrame ctrl) {
-		System.out.println("Creating main panel");
 		controlling = ctrl;
 		
-		bCliente = new JButton("Cliente");
+		Border borda = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+		
+		JPanel container = new JPanel();
+		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+		
+		JPanel inside = new JPanel();
+		inside.setLayout(new GridLayout(0, 1, 0, 10));
+		
+		bCliente = new JButton("Login Cliente");
 		bCliente.setActionCommand("log_cliente");
 		bCliente.setMnemonic(KeyEvent.VK_C);
 		bCliente.addActionListener(this);
+		bCliente.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		
-		bGerente = new JButton("Gerente");
+		bGerente = new JButton("Login Gerente");
 		bGerente.setActionCommand("log_gerente");
 		bGerente.setMnemonic(KeyEvent.VK_G);
 		bGerente.addActionListener(this);
+		bGerente.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		
-		add(bCliente);
-		add(bGerente);
+		bSair = new JButton("Sair");
+		bSair.setActionCommand("exit_prog");
+		bSair.setMnemonic(KeyEvent.VK_S);
+		bSair.addActionListener(this);
+		bSair.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		
+		inside.add(bCliente);
+		inside.add(bGerente);
+		inside.add(bSair);
+		
+		inside.setPreferredSize(new Dimension(200, 200));
+		
+		Dimension minSize = new Dimension(1, 50);
+		Dimension prefSize = new Dimension(1, 100);
+		Dimension maxSize = new Dimension(1, 150);
+		
+		JLabel select = new JLabel("Selecione uma opcao:");
+		select.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		
+		container.add(new Box.Filler(minSize, minSize, minSize));
+		container.add(select);
+		container.add(new Box.Filler(minSize, prefSize, maxSize));
+		container.add(inside);
+		
+		add(container);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		if ("log_cliente".equals(e.getActionCommand())) {
 			ClientLoginJPanel screen = new ClientLoginJPanel(controlling);
 			Banco.reconfigContentPane(screen);
-			//Banco.reconfigContentPane(Banco.CLIENT_LOGIN);
 		} else if ("log_gerente".equals(e.getActionCommand())) {
 			ADMLoginJPanel screen = new ADMLoginJPanel(controlling);
 			Banco.reconfigContentPane(screen);
-			//Banco.reconfigContentPane(Banco.ADM_LOGIN);
+		} else if ("exit_prog".equals(e.getActionCommand())) {
+			System.exit(0);
 		}
 	}
 }

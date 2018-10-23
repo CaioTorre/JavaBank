@@ -58,10 +58,12 @@ public class ContaEspecial extends Conta {
 	
 	public double getLimite() { return this.limite; }
 
-	public void cobrarJuros(double juros) {
+	public boolean cobrarJuros(double juros) {
 		if (limite < limiteMax) {
 			double devendo = (limiteMax - limite) * (juros / 100.0);
 			limite = limite - devendo;
+			return true;
 		}
+		return false;
 	}
 }

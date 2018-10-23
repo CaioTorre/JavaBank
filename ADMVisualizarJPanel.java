@@ -1,15 +1,6 @@
-import java.awt.FlowLayout;
 import java.awt.*;
-/*
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-*/
 import javax.swing.*;
+import javax.swing.border.*;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -33,16 +24,19 @@ public class ADMVisualizarJPanel extends JPanel implements ActionListener {
 		contas_campo.setLayout(new GridLayout(0, 1, 0, 5));
 		contas_campo.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		
+		Border borda = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
 		JLabel conta_atual;
 		int i;
 		for (i = 0; i < n_contas; i++) {
 			//System.out.printf("Adding (%d) - %s\n", i, contas_as_strings[i]);
 			conta_atual = new JLabel("<html><div style='text-align: center;'>" + contas_as_strings[i].replaceAll("\n", "<br>") + "</div></html>");
 			conta_atual.setHorizontalAlignment(JLabel.CENTER);
+			conta_atual.setBorder(borda);
 			contas_campo.add(conta_atual);
 		}
 		
 		campo = new JScrollPane(contas_campo);
+		campo.setPreferredSize(new Dimension(350, 350));
 		
 		bRetorno = new JButton("Voltar");
 		bRetorno.addActionListener(this);

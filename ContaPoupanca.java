@@ -27,7 +27,7 @@ public class ContaPoupanca extends Conta {
 	}
 	
 	public void incrementarRendimentos() {
-		double newSaldo = this.getSaldo() * (1 + this.juros / 100.0);
+		double newSaldo = this.getSaldo() * (1 + this.juros);
 		this.setSaldo(newSaldo);
 	}
 }
