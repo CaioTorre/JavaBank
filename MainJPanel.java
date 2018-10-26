@@ -9,10 +9,12 @@ import java.awt.event.KeyEvent;
 public class MainJPanel extends JPanel implements ActionListener {
 	
 	protected JButton bCliente, bGerente, bSair;
-	protected JFrame controlling;
 	
-	public MainJPanel(JFrame ctrl) {
-		controlling = ctrl;
+	private Banco b;
+	public void setBancoInstance() { b = Banco.getInstance(); }
+	
+	public MainJPanel() {
+		//controlling = ctrl;
 		
 		Font f = new Font("SansSerif", Font.PLAIN, 28);
 		Border borda = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
@@ -66,12 +68,15 @@ public class MainJPanel extends JPanel implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		b = Banco.getInstance();
 		if ("log_cliente".equals(e.getActionCommand())) {
-			ClientLoginJPanel screen = new ClientLoginJPanel(controlling);
-			Banco.reconfigContentPane(screen);
+			//ClientLoginJPanel screen = new ClientLoginJPanel(controlling);
+			//Banco.reconfigContentPane(screen);
+			b.reconfigContentPane(Banco.CLIENT_LOGIN);
 		} else if ("log_gerente".equals(e.getActionCommand())) {
-			ADMLoginJPanel screen = new ADMLoginJPanel(controlling);
-			Banco.reconfigContentPane(screen);
+			//ADMLoginJPanel screen = new ADMLoginJPanel(controlling);
+			//Banco.reconfigContentPane(screen);
+			b.reconfigContentPane(Banco.ADM_LOGIN);
 		} else if ("exit_prog".equals(e.getActionCommand())) {
 			System.exit(0);
 		}

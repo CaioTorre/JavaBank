@@ -10,13 +10,21 @@ public class ADMVisualizarJPanel extends JPanel implements ActionListener {
 	
 	protected JScrollPane campo;
 	protected JButton bRetorno;
-	protected JFrame controlling;
+	protected JPanel container;
 	
-	public ADMVisualizarJPanel (JFrame ctrl, String[] contas_as_strings, int n_contas) {
-		controlling = ctrl;
+	private Banco b;
+	public void setBancoInstance() { b = Banco.getInstance(); }
+	//protected JFrame controlling;
+	
+	public void build_contas_view() {//String[] contas_as_strings, int n_contas) {
+		b = Banco.getInstance();
 		
-		JPanel container = new JPanel();
-		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+		container.remove(campo);
+		revalidate();
+		
+		String[] contas_as_strings = b.adm_get_contas_as_strings();
+		System.out.println("Got contas = " + contas_as_strings[0]);
+		int n_contas = b.get_n_contas();
 		
 		JPanel contas_campo = new JPanel();
 		contas_campo.setSize(400,400);
@@ -36,6 +44,23 @@ public class ADMVisualizarJPanel extends JPanel implements ActionListener {
 		}
 		
 		campo = new JScrollPane(contas_campo);
+		
+		container.add(campo);
+		revalidate();
+		repaint();
+	}
+	
+	public ADMVisualizarJPanel () {//String[] contas_as_strings, int n_contas) {
+		//controlling = ctrl;
+		
+		container = new JPanel();
+		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+		
+		//campo = new JScrollPane(build_contas_view(contas_as_strings, n_contas));
+		//build_contas_view(b.get_contas_as_strings(), b.get_n_contas());
+		
+		if (Banco.testInstance()) { build_contas_view(); } else { campo = new JScrollPane(); }
+		
 		campo.setPreferredSize(new Dimension(350, 350));
 		
 		bRetorno = new JButton("Voltar");
@@ -48,13 +73,16 @@ public class ADMVisualizarJPanel extends JPanel implements ActionListener {
 		container.add(bRetorno);
 		
 		add(container);
-		Banco.getMainFrame().getRootPane().setDefaultButton(bRetorno);
+		//Banco.getMainFrame().getRootPane().setDefaultButton(bRetorno);
+		if (Banco.testInstance()) { b.setDefaultButtonForPane(bRetorno); }
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		b = Banco.getInstance();
 		if ("voltar".equals(e.getActionCommand())) {
-			ADMJPanel screen = new ADMJPanel(controlling);
-			Banco.reconfigContentPane(screen);
+			//ADMJPanel screen = new ADMJPanel(controlling);
+			//Banco.reconfigContentPane(screen);
+			b.reconfigContentPane(Banco.ADM);
 		}
 	}
 }

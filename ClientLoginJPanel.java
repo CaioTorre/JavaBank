@@ -10,14 +10,17 @@ import java.lang.NumberFormatException;
 
 public class ClientLoginJPanel extends JPanel implements ActionListener {
 	
-	protected JFrame controlling;
+	//protected JFrame controlling;
 	
 	protected JButton login, cancelar;
 	protected JTextField userField;
 	protected JPasswordField passField;
 	
-	public ClientLoginJPanel(JFrame ctrl) {
-		controlling = ctrl;
+	private Banco b;
+	public void setBancoInstance() { b = Banco.getInstance(); }
+	
+	public ClientLoginJPanel() {
+		//controlling = ctrl;
 		
 		Font f = new Font("SansSerif", Font.PLAIN, 28);
 		Border borda = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
@@ -76,7 +79,8 @@ public class ClientLoginJPanel extends JPanel implements ActionListener {
 		
 		add(bigContainer);
 		
-		Banco.getMainFrame().getRootPane().setDefaultButton(login);
+		//b.setDefaultButtonForPane(login);
+		//Banco.getMainFrame().getRootPane().setDefaultButton(login);
 		EventQueue.invokeLater(new Runnable() {
 		   @Override
 			 public void run() {
@@ -87,6 +91,7 @@ public class ClientLoginJPanel extends JPanel implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		b = Banco.getInstance();
 		if ("tentar_login".equals(e.getActionCommand())) {
 			int user = 0;
 			try {
@@ -94,11 +99,12 @@ public class ClientLoginJPanel extends JPanel implements ActionListener {
 				String pass = String.valueOf(passField.getPassword());
 				
 				if (pass.equals("")) { throw new StringVaziaException(); }
-				Conta c = Banco.tentarLogin(user, pass);
+				//Conta c = Banco.tentarLogin(user, pass);
 				
-				if (c != null) {
-					ClientJPanel screen = new ClientJPanel(controlling, c);
-					Banco.reconfigContentPane(screen);
+				if (b.client_tentarLogin(user, pass)) {
+					b.reconfigContentPane(Banco.CLIENT);
+					//ClientJPanel screen = new ClientJPanel(controlling, c);
+					//Banco.reconfigContentPane(screen);
 				} else {
 					JOptionPane.showMessageDialog(null, "Combinacao nao reconhecida...", "Alerta", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -110,8 +116,9 @@ public class ClientLoginJPanel extends JPanel implements ActionListener {
 			}
 			
 		} else if ("cancelar_login".equals(e.getActionCommand())) {
-			MainJPanel screen = new MainJPanel(controlling);
-			Banco.reconfigContentPane(screen);
+			b.reconfigContentPane(Banco.MAIN);
+			//MainJPanel screen = new MainJPanel(controlling);
+			//Banco.reconfigContentPane(screen);
 		}
 	}
 }

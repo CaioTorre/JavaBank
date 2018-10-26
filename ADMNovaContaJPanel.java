@@ -11,7 +11,7 @@ import java.lang.NullPointerException;
 
 public class ADMNovaContaJPanel extends JPanel implements ActionListener {
 	
-	protected JFrame controlling;
+	//protected JFrame controlling;
 	
 	protected JLabel lNumero, lNome, lLimite, lJuros;
 	protected JTextField tNumero, tNome, tLimite, tJuros;
@@ -21,11 +21,13 @@ public class ADMNovaContaJPanel extends JPanel implements ActionListener {
 	
 	private int config_tipo = 0;
 	
-	private Adm a;
+	//private Adm a;
+	private Banco b;
+	public void setBancoInstance() { b = Banco.getInstance(); }
 	
-	public ADMNovaContaJPanel(JFrame ctrl, Adm adm) {
-		this.a = adm;
-		controlling = ctrl;
+	public ADMNovaContaJPanel() {
+		//this.a = adm;
+		//controlling = ctrl;
 		
 		JPanel container = new JPanel();
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
@@ -143,6 +145,7 @@ public class ADMNovaContaJPanel extends JPanel implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		b = Banco.getInstance();
 		String action = e.getActionCommand();
 		
 		if (action.equals("config_conta_simples")) {
@@ -166,7 +169,7 @@ public class ADMNovaContaJPanel extends JPanel implements ActionListener {
 			String campo_erro = "";
 			double limite;
 			double juros;
-			Conta t = null;
+			//Conta t = null;
 			
 			try {
 				campo_erro = "Nome";
@@ -176,24 +179,28 @@ public class ADMNovaContaJPanel extends JPanel implements ActionListener {
 				numero = Integer.parseInt(tNumero.getText());
 				
 				if (config_tipo == 0) {
-					t = a.criarNovaContaSimples(numero, nome);
+					//t = a.criarNovaContaSimples(numero, nome);
+					b.novaContaS(numero, nome);
 				} else if (config_tipo == 1) {
 					campo_erro = "Limite";
 					limite = Double.parseDouble(tLimite.getText());
-					t = a.criarNovaContaEspecial(numero, nome, limite);
+					//t = a.criarNovaContaEspecial(numero, nome, limite);
+					b.novaContaE(numero, nome, limite);
 				} else if (config_tipo == 2) {
 					campo_erro = "Juros";
 					juros = Double.parseDouble(tJuros.getText());
-					t = a.criarNovaContaPoupanca(numero, nome, juros);
+					//t = a.criarNovaContaPoupanca(numero, nome, juros);
+					b.novaContaP(numero, nome, juros);
 				}
 				
-				if (t != null) {
+				//if (t != null) {
 					JOptionPane.showMessageDialog(null, "Sucesso ao criar a conta", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-					ADMJPanel screen = new ADMJPanel(controlling);
-					Banco.reconfigContentPane(screen);
-				} else {
-					JOptionPane.showMessageDialog(null, "Falha ao criar a conta", "Erro", JOptionPane.ERROR_MESSAGE);
-				}
+					//ADMJPanel screen = new ADMJPanel(controlling);
+					//Banco.reconfigContentPane(screen);
+					b.reconfigContentPane(Banco.ADM);
+				//} else {
+					//JOptionPane.showMessageDialog(null, "Falha ao criar a conta", "Erro", JOptionPane.ERROR_MESSAGE);
+				//}
 				
 			} catch (NumberFormatException ie) {
 				JOptionPane.showMessageDialog(null, "Favor digitar um numero (campo " + campo_erro + ")", "Erro", JOptionPane.ERROR_MESSAGE); 
@@ -204,8 +211,9 @@ public class ADMNovaContaJPanel extends JPanel implements ActionListener {
 			}
 			
 		} else if (action.equals("config_cancela")) {
-			ADMJPanel screen = new ADMJPanel(controlling);
-			Banco.reconfigContentPane(screen);
+			//ADMJPanel screen = new ADMJPanel(controlling);
+			//Banco.reconfigContentPane(screen);
+			b.reconfigContentPane(Banco.ADM);
 		}
 	}
 }

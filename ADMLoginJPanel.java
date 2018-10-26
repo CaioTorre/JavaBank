@@ -10,14 +10,17 @@ import java.lang.NumberFormatException;
 
 public class ADMLoginJPanel extends JPanel implements ActionListener {
 	
-	protected JFrame controlling;
+	//protected JFrame controlling;
 	
 	protected JButton login, cancelar;
 	protected JTextField userField;
 	protected JPasswordField passField;
 	
-	public ADMLoginJPanel(JFrame ctrl) {
-		controlling = ctrl;
+	private Banco b;
+	public void setBancoInstance() { b = Banco.getInstance(); }
+	
+	public ADMLoginJPanel() {
+		//controlling = ctrl;
 		
 		Font f = new Font("SansSerif", Font.PLAIN, 28);
 		Border borda = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
@@ -76,7 +79,8 @@ public class ADMLoginJPanel extends JPanel implements ActionListener {
 		
 		add(bigContainer);
 		
-		Banco.getMainFrame().getRootPane().setDefaultButton(login);
+		if (Banco.testInstance()) { b.setDefaultButtonForPane(login); }
+		//Banco.getMainFrame().getRootPane().setDefaultButton(login);
 		EventQueue.invokeLater(new Runnable() {
 		   @Override
 			 public void run() {
@@ -87,6 +91,7 @@ public class ADMLoginJPanel extends JPanel implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		b = Banco.getInstance();
 		if ("tentar_login".equals(e.getActionCommand())) {
 			int user = 0;
 			String campo_erro = "Usuario";
@@ -96,10 +101,13 @@ public class ADMLoginJPanel extends JPanel implements ActionListener {
 				campo_erro = "Senha";
 				String password = String.valueOf(passField.getPassword());
 				if (password.equals("")) { throw new StringVaziaException(); }
-				boolean success = Banco.tentarLoginADM(username, password);
-				if (success) {
-					ADMJPanel screen = new ADMJPanel(controlling);
-					Banco.reconfigContentPane(screen);
+				
+				//boolean success = Banco.tentarLoginADM(username, password);
+				//if (success) {
+				if (b.tentarLoginADM(username, password)) {
+					//ADMJPanel screen = new ADMJPanel(controlling);
+					//Banco.reconfigContentPane(screen);
+					b.reconfigContentPane(Banco.ADM);
 				} else {
 					JOptionPane.showMessageDialog(null, "Combinacao nao reconhecida...", "Alerta", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -107,8 +115,9 @@ public class ADMLoginJPanel extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(null, "Campo " + campo_erro + " nao pode estar vazio", "Erro", JOptionPane.ERROR_MESSAGE); 
 			}
 		} else if ("cancelar_login".equals(e.getActionCommand())) {
-			MainJPanel screen = new MainJPanel(controlling);
-			Banco.reconfigContentPane(screen);
+			//MainJPanel screen = new MainJPanel(controlling);
+			//Banco.reconfigContentPane(screen);
+			b.reconfigContentPane(Banco.MAIN);
 		}
 	}
 }

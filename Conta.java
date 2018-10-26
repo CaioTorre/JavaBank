@@ -23,7 +23,7 @@ public abstract class Conta {
 	}
 	
 	public String getSenha() { return this.senha; }
-	public void setSenha(String s) { this.senha = s; }
+	//public void setSenha(String s) { this.senha = s; }
 	
 	public void setNumero(int numero) { this.numero = numero; }
 	public int getNumero() { return numero; }
@@ -59,15 +59,16 @@ public abstract class Conta {
 		this.saldo = saldo;
 	}
 	
-	public void alterarSenha(String senhaNova) {
+	public void alterarSenha(String senhaAntiga, String senhaNova) {
 		//Scanner inp = new Scanner( System.in );
 		//System.out.print("Digite a senha antiga: ");
 		//String senhaAntiga = inp.nextLine();
-		//if (comparaSenha(senhaAntiga)) {
+		if (comparaSenha(senhaAntiga)) {
+			this.senha = senhaNova;
 			//System.out.print("Digite a nova senha: ");
 			//this.senha = inp.nextLine();
 			//System.out.println("Senha atualizada com sucesso!");
-		//} else {
+		} //else {
 			//System.out.println("Senha antiga difere!");
 		//}
 		//System.out.println(spacer);
