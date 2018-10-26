@@ -8,7 +8,7 @@ import java.awt.event.KeyEvent;
 
 import java.lang.NumberFormatException;
 
-public class ClientLoginJPanel extends JPanel implements ActionListener {
+public class ClientLoginJPanel extends Painel implements ActionListener {
 	
 	//protected JFrame controlling;
 	
@@ -16,8 +16,8 @@ public class ClientLoginJPanel extends JPanel implements ActionListener {
 	protected JTextField userField;
 	protected JPasswordField passField;
 	
-	private Banco b;
-	public void setBancoInstance() { b = Banco.getInstance(); }
+	//private Banco b;
+	//public void setBancoInstance() { b = Banco.getInstance(); }
 	
 	public ClientLoginJPanel() {
 		//controlling = ctrl;
@@ -102,6 +102,7 @@ public class ClientLoginJPanel extends JPanel implements ActionListener {
 				//Conta c = Banco.tentarLogin(user, pass);
 				
 				if (b.client_tentarLogin(user, pass)) {
+					clearFields();
 					b.reconfigContentPane(Banco.CLIENT);
 					//ClientJPanel screen = new ClientJPanel(controlling, c);
 					//Banco.reconfigContentPane(screen);
@@ -116,9 +117,17 @@ public class ClientLoginJPanel extends JPanel implements ActionListener {
 			}
 			
 		} else if ("cancelar_login".equals(e.getActionCommand())) {
+			clearFields();
 			b.reconfigContentPane(Banco.MAIN);
 			//MainJPanel screen = new MainJPanel(controlling);
 			//Banco.reconfigContentPane(screen);
 		}
 	}
+	
+	private void clearFields() {
+		userField.setText("");
+		passField.setText("");
+	}
+	
+	public void on_update() {}
 }

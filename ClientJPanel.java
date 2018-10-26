@@ -9,14 +9,14 @@ import java.awt.event.KeyEvent;
 import java.lang.NumberFormatException;
 import java.lang.NullPointerException;
 
-public class ClientJPanel extends JPanel implements ActionListener {
+public class ClientJPanel extends Painel implements ActionListener {
 	
 	//protected JFrame controlling;
 	protected JButton bSaque, bDeposito, bInfo, bSenha, bLogout;
 	protected JLabel bemVindo;
 	
-	private Banco b;
-	public void setBancoInstance() { b = Banco.getInstance(); }
+	//private Banco b;
+	//public void setBancoInstance() { b = Banco.getInstance(); }
 	
 	//public void setSession(Conta c) { session_atual = c; }
 	//public Conta getSession() { return session_atual; }
@@ -138,5 +138,10 @@ public class ClientJPanel extends JPanel implements ActionListener {
 			//MainJPanel screen = new MainJPanel(controlling);
 			//Banco.reconfigContentPane(screen);
 		}
+	}
+	
+	public void on_update() { 
+		b = Banco.getInstance();
+		bemVindo.setText("Bem vindo(a) Sr(a). " + b.client_getNome());
 	}
 }

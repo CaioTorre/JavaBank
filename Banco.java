@@ -20,7 +20,7 @@ public class Banco {
 	
 	private static Banco self;
 	
-	private JPanel panels[] = new JPanel[10];
+	private Painel panels[] = new Painel[10];
 	public static final int MAIN = 0;
 	public static final int CLIENT_LOGIN = 1;
 	public static final int ADM_LOGIN = 2;
@@ -73,23 +73,6 @@ public class Banco {
         pushNovaContaSimples(123, "Asduhfee");
         pushNovaContaEspecial(456, "Especial", 20.0);
         pushNovaContaPoupanca(789, "Poupanca", 0.01);
-	}
-	
-	public void setInstances() {
-		MainJPanel a = (MainJPanel)panels[MAIN];
-		a.setBancoInstance();
-		ClientLoginJPanel b = (ClientLoginJPanel)panels[CLIENT_LOGIN];
-		b.setBancoInstance();
-		ADMLoginJPanel c = (ADMLoginJPanel)panels[ADM_LOGIN];
-		c.setBancoInstance();
-		ClientJPanel d = (ClientJPanel)panels[CLIENT];
-		d.setBancoInstance();
-		ADMJPanel e = (ADMJPanel)panels[ADM];
-		e.setBancoInstance();
-		ADMNovaContaJPanel f = (ADMNovaContaJPanel)panels[ADM_NOVA_CONTA];
-		f.setBancoInstance();
-		ADMVisualizarJPanel g = (ADMVisualizarJPanel)panels[ADM_VISUALIZAR];
-		g.setBancoInstance();
 	}
 	
 	public int get_n_contas() { return numero_contas; }
@@ -147,18 +130,20 @@ public class Banco {
 	public boolean tentarLoginADM(String user, String pass) { return (master_adm.tentaLogin(user, pass)); }
 	
 	//DEPRECATED
-	public void reconfigContentPane(JPanel jp) {
-		frame.setContentPane(jp);
-		frame.pack();
-		frame.setVisible(true);
-	}
+	//public void reconfigContentPane(JPanel jp) {
+	//	frame.setContentPane(jp);
+	//	frame.pack();
+	//	frame.setVisible(true);
+	//}
 	
 	public void reconfigContentPane(int panel_code) {
 		frame.setContentPane(panels[panel_code]);
-		if (panel_code == Banco.ADM_VISUALIZAR) { 
-			ADMVisualizarJPanel t = (ADMVisualizarJPanel)frame.getContentPane();
-			t.build_contas_view();
-		}
+		//if (panel_code == Banco.ADM_VISUALIZAR) { 
+		//	ADMVisualizarJPanel t = (ADMVisualizarJPanel)frame.getContentPane();
+		//	t.build_contas_view();
+		//}
+		Painel t = (Painel)frame.getContentPane();
+		t.on_update();
 		frame.pack();
 		frame.setVisible(true);
 	}

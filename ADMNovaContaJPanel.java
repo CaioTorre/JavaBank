@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 import java.lang.NumberFormatException;
 import java.lang.NullPointerException;
 
-public class ADMNovaContaJPanel extends JPanel implements ActionListener {
+public class ADMNovaContaJPanel extends Painel implements ActionListener {
 	
 	//protected JFrame controlling;
 	
@@ -22,8 +22,8 @@ public class ADMNovaContaJPanel extends JPanel implements ActionListener {
 	private int config_tipo = 0;
 	
 	//private Adm a;
-	private Banco b;
-	public void setBancoInstance() { b = Banco.getInstance(); }
+	//private Banco b;
+	//public void setBancoInstance() { b = Banco.getInstance(); }
 	
 	public ADMNovaContaJPanel() {
 		//this.a = adm;
@@ -216,4 +216,6 @@ public class ADMNovaContaJPanel extends JPanel implements ActionListener {
 			b.reconfigContentPane(Banco.ADM);
 		}
 	}
+	
+	public void on_update() {}
 }

@@ -9,15 +9,15 @@ import java.awt.event.KeyEvent;
 import java.lang.NumberFormatException;
 import java.lang.NullPointerException;
 
-public class ADMJPanel extends JPanel implements ActionListener {
+public class ADMJPanel extends Painel implements ActionListener {
 	
 	//protected JFrame controlling;
 	
 	protected JButton bNovaConta, bVisualizar, bRendimentos, bJuros, bVisualizarTodas, bLogout;
 	protected JLabel bemVindo;
 	
-	private Banco b;
-	public void setBancoInstance() { b = Banco.getInstance(); }
+	//private Banco b;
+	//public void setBancoInstance() { b = Banco.getInstance(); }
 	
 	public ADMJPanel() {
 		//controlling = ctrl;
@@ -140,5 +140,10 @@ public class ADMJPanel extends JPanel implements ActionListener {
 			//Banco.reconfigContentPane(screen);
 			b.reconfigContentPane(Banco.MAIN);
 		}
+	}
+	
+	public void on_update() { 
+		b = Banco.getInstance();
+		bemVindo.setText("Bem vindo(a) Sr(a). " + b.adm_getNome());
 	}
 }

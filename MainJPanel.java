@@ -6,12 +6,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-public class MainJPanel extends JPanel implements ActionListener {
+public class MainJPanel extends Painel implements ActionListener {
 	
 	protected JButton bCliente, bGerente, bSair;
 	
-	private Banco b;
-	public void setBancoInstance() { b = Banco.getInstance(); }
+	//private Banco b;
+	//public void setBancoInstance() { b = Banco.getInstance(); }
 	
 	public MainJPanel() {
 		//controlling = ctrl;
@@ -81,4 +81,6 @@ public class MainJPanel extends JPanel implements ActionListener {
 			System.exit(0);
 		}
 	}
+	
+	public void on_update() {}
 }

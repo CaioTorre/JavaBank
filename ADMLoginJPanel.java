@@ -8,7 +8,7 @@ import java.awt.event.KeyEvent;
 
 import java.lang.NumberFormatException;
 
-public class ADMLoginJPanel extends JPanel implements ActionListener {
+public class ADMLoginJPanel extends Painel implements ActionListener {
 	
 	//protected JFrame controlling;
 	
@@ -16,8 +16,8 @@ public class ADMLoginJPanel extends JPanel implements ActionListener {
 	protected JTextField userField;
 	protected JPasswordField passField;
 	
-	private Banco b;
-	public void setBancoInstance() { b = Banco.getInstance(); }
+	//private Banco b;
+	//public void setBancoInstance() { b = Banco.getInstance(); }
 	
 	public ADMLoginJPanel() {
 		//controlling = ctrl;
@@ -79,7 +79,7 @@ public class ADMLoginJPanel extends JPanel implements ActionListener {
 		
 		add(bigContainer);
 		
-		if (Banco.testInstance()) { b.setDefaultButtonForPane(login); }
+		//if (Banco.testInstance()) { b.setDefaultButtonForPane(login); }
 		//Banco.getMainFrame().getRootPane().setDefaultButton(login);
 		EventQueue.invokeLater(new Runnable() {
 		   @Override
@@ -107,6 +107,7 @@ public class ADMLoginJPanel extends JPanel implements ActionListener {
 				if (b.tentarLoginADM(username, password)) {
 					//ADMJPanel screen = new ADMJPanel(controlling);
 					//Banco.reconfigContentPane(screen);
+					clearFields();
 					b.reconfigContentPane(Banco.ADM);
 				} else {
 					JOptionPane.showMessageDialog(null, "Combinacao nao reconhecida...", "Alerta", JOptionPane.INFORMATION_MESSAGE);
@@ -118,6 +119,14 @@ public class ADMLoginJPanel extends JPanel implements ActionListener {
 			//MainJPanel screen = new MainJPanel(controlling);
 			//Banco.reconfigContentPane(screen);
 			b.reconfigContentPane(Banco.MAIN);
+			clearFields();
 		}
 	}
+	
+	private void clearFields() {
+		userField.setText("");
+		passField.setText("");
+	}
+	
+	public void on_update() {}
 }
