@@ -9,19 +9,12 @@ import java.awt.event.KeyEvent;
 import java.lang.NumberFormatException;
 
 public class ADMLoginJPanel extends Painel implements ActionListener {
-	
-	//protected JFrame controlling;
-	
+
 	protected JButton login, cancelar;
 	protected JTextField userField;
 	protected JPasswordField passField;
-	
-	//private Banco b;
-	//public void setBancoInstance() { b = Banco.getInstance(); }
-	
+
 	public ADMLoginJPanel() {
-		//controlling = ctrl;
-		
 		Font f = new Font("SansSerif", Font.PLAIN, 28);
 		Border borda = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
 
@@ -78,9 +71,6 @@ public class ADMLoginJPanel extends Painel implements ActionListener {
 		bigContainer.add(container);
 		
 		add(bigContainer);
-		
-		//if (Banco.testInstance()) { b.setDefaultButtonForPane(login); }
-		//Banco.getMainFrame().getRootPane().setDefaultButton(login);
 		EventQueue.invokeLater(new Runnable() {
 		   @Override
 			 public void run() {
@@ -102,11 +92,7 @@ public class ADMLoginJPanel extends Painel implements ActionListener {
 				String password = String.valueOf(passField.getPassword());
 				if (password.equals("")) { throw new StringVaziaException(); }
 				
-				//boolean success = Banco.tentarLoginADM(username, password);
-				//if (success) {
 				if (b.tentarLoginADM(username, password)) {
-					//ADMJPanel screen = new ADMJPanel(controlling);
-					//Banco.reconfigContentPane(screen);
 					clearFields();
 					b.reconfigContentPane(Banco.ADM);
 				} else {
@@ -116,10 +102,8 @@ public class ADMLoginJPanel extends Painel implements ActionListener {
 				JOptionPane.showMessageDialog(null, "Campo " + campo_erro + " nao pode estar vazio", "Erro", JOptionPane.ERROR_MESSAGE); 
 			}
 		} else if ("cancelar_login".equals(e.getActionCommand())) {
-			//MainJPanel screen = new MainJPanel(controlling);
-			//Banco.reconfigContentPane(screen);
-			b.reconfigContentPane(Banco.MAIN);
 			clearFields();
+			b.reconfigContentPane(Banco.MAIN);
 		}
 	}
 	

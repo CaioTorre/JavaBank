@@ -79,28 +79,28 @@ public class Banco {
 	public Conta[] get_contas() { return contas; }
 	
 	//====================== CRIADORES DE CONTAS PUBLICOS ======================
-	public boolean novaContaS(int numero, String nome) throws IDJaEncontradoException {
-		if (self.master_adm.getLoginState()) {
+	public boolean novaContaS(int numero, String nome) throws IDJaEncontradoException, NoADMSessionException {
+		if (master_adm.getLoginState()) {
 			if (checkForID(numero)) { throw new IDJaEncontradoException(); }
 			pushNovaContaSimples(numero, nome);
 			return true;
-		}
+		} else { throw new NoADMSessionException(); }
 		return false;
 	}
-	public boolean novaContaE(int numero, String nome, double limite) throws IDJaEncontradoException {
+	public boolean novaContaE(int numero, String nome, double limite) throws IDJaEncontradoException, NoADMSessionException {
 		if (master_adm.getLoginState()) {
 			if (checkForID(numero)) { throw new IDJaEncontradoException(); }
 			pushNovaContaEspecial(numero, nome, limite);
 			return true;
-		}
+		} else { throw new NoADMSessionException(); }
 		return false;
 	}
-	public boolean novaContaP(int numero, String nome, double juros) throws IDJaEncontradoException {
+	public boolean novaContaP(int numero, String nome, double juros) throws IDJaEncontradoException, NoADMSessionException {
 		if (master_adm.getLoginState()) {
 			if (checkForID(numero)) { throw new IDJaEncontradoException(); }
 			pushNovaContaPoupanca(numero, nome, juros);
 			return true;
-		}
+		} else { throw new NoADMSessionException(); }
 		return false;
 	}
 	
@@ -114,34 +114,17 @@ public class Banco {
 		contas[numero_contas] = new ContaEspecial(numero, nome, limite);
 		numero_contas = numero_contas + 1;
 		return contas[numero_contas - 1];
-		//self.contas[self.numero_contas] = new ContaEspecial(numero, nome, limite);
-		//self.numero_contas = self.numero_contas + 1;
-		//return self.contas[self.numero_contas - 1];
 	}
 	private Conta pushNovaContaPoupanca(int numero, String nome, double juros) {
 		contas[numero_contas] = new ContaPoupanca(numero, nome, juros);
 		numero_contas = numero_contas + 1;
 		return contas[numero_contas - 1];
-		//self.contas[self.numero_contas] = new ContaPoupanca(numero, nome, juros);
-		//self.numero_contas = self.numero_contas + 1;
-		//return self.contas[self.numero_contas - 1];
 	}
 	
 	public boolean tentarLoginADM(String user, String pass) { return (master_adm.tentaLogin(user, pass)); }
 	
-	//DEPRECATED
-	//public void reconfigContentPane(JPanel jp) {
-	//	frame.setContentPane(jp);
-	//	frame.pack();
-	//	frame.setVisible(true);
-	//}
-	
 	public void reconfigContentPane(int panel_code) {
 		frame.setContentPane(panels[panel_code]);
-		//if (panel_code == Banco.ADM_VISUALIZAR) { 
-		//	ADMVisualizarJPanel t = (ADMVisualizarJPanel)frame.getContentPane();
-		//	t.build_contas_view();
-		//}
 		Painel t = (Painel)frame.getContentPane();
 		t.on_update();
 		frame.pack();
@@ -160,7 +143,6 @@ public class Banco {
 				session = contas[i];
 			}
 		}
-		
 		return session;
 	}
 	
@@ -181,7 +163,6 @@ public class Banco {
 			if (contas[i].getNumero() == user && contas[i].comparaSenha(pass)) {
 				session = contas[i];
 				return true;
-				//return contas[i];
 			}
 		}
 		return false;
@@ -226,7 +207,8 @@ public class Banco {
 	
 	public int adm_cobrarJuros(double j) { return master_adm.cobrarJuros(j); }
 	
-	public String adm_client_to_string(int id) throws NullPointerException {
+	public String adm_client_to_string(int id) throws NullPointerException, ValorInvalidoException {
+		if (id < 0) { throw new ValorInvalidoException(); }
 		Conta t = findByID(id);
 		return t.to_string();
 	}

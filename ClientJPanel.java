@@ -11,20 +11,10 @@ import java.lang.NullPointerException;
 
 public class ClientJPanel extends Painel implements ActionListener {
 	
-	//protected JFrame controlling;
 	protected JButton bSaque, bDeposito, bInfo, bSenha, bLogout;
 	protected JLabel bemVindo;
-	
-	//private Banco b;
-	//public void setBancoInstance() { b = Banco.getInstance(); }
-	
-	//public void setSession(Conta c) { session_atual = c; }
-	//public Conta getSession() { return session_atual; }
-	
+
 	public ClientJPanel() {
-		//controlling = ctrl;
-		//setSession(c);
-		
 		if (Banco.testInstance()) { bemVindo = new JLabel("Bem vindo(a) Sr(a). " + b.client_getNome()); } else { bemVindo = new JLabel("---"); }
 		bemVindo.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		
@@ -82,7 +72,6 @@ public class ClientJPanel extends Painel implements ActionListener {
 			double val;
 			try {
 				val = Double.parseDouble(input);
-				//session_atual.sacar(val);
 				b.client_sacar(val);
 				JOptionPane.showMessageDialog(null, "Saque realizado com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 			} catch ( NumberFormatException ne ) {
@@ -93,6 +82,7 @@ public class ClientJPanel extends Painel implements ActionListener {
 				JOptionPane.showMessageDialog(null, ve.to_string(), "Erro", JOptionPane.WARNING_MESSAGE);
 			} catch (NoActiveSessionException ns) {
 				JOptionPane.showMessageDialog(null, ns.to_string(), "Erro", JOptionPane.ERROR_MESSAGE);
+				b.reconfigContentPane(Banco.MAIN);
 			} catch ( NullPointerException npe ) { }
 			
 		} else if ("depositar".equals(e.getActionCommand())) {
@@ -100,13 +90,15 @@ public class ClientJPanel extends Painel implements ActionListener {
 			double val;
 			try {
 				val = Double.parseDouble(input);
-				//session_atual.depositar(val);
 				b.client_depositar(val);
 				JOptionPane.showMessageDialog(null, "Deposito realizado com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 			} catch ( NumberFormatException ne ) {
 				JOptionPane.showMessageDialog(null, "Favor digitar um numero!", "Erro", JOptionPane.ERROR_MESSAGE); 
+			} catch (ValorInvalidoException ve) {
+				JOptionPane.showMessageDialog(null, ve.to_string(), "Erro", JOptionPane.WARNING_MESSAGE);
 			} catch (NoActiveSessionException ns) {
 				JOptionPane.showMessageDialog(null, ns.to_string(), "Erro", JOptionPane.ERROR_MESSAGE);
+				b.reconfigContentPane(Banco.MAIN);
 			} catch ( NullPointerException npe ) { }
 			
 		} else if ("info".equals(e.getActionCommand())) {
@@ -114,14 +106,13 @@ public class ClientJPanel extends Painel implements ActionListener {
 				JOptionPane.showMessageDialog(null, b.client_to_string(), "Informacoes", JOptionPane.INFORMATION_MESSAGE);
 			} catch (NoActiveSessionException ns) {
 				JOptionPane.showMessageDialog(null, ns.to_string(), "Erro", JOptionPane.ERROR_MESSAGE);
+				b.reconfigContentPane(Banco.MAIN);
 			}
 		} else if ("senha".equals(e.getActionCommand())) {
 			String senhaAntiga = JOptionPane.showInputDialog("Digite a senha antiga", "senha antiga");
 			try {
-				//if (session_atual.comparaSenha(senhaAntiga)) {
 				if (b.client_comparaSenha(senhaAntiga)) {
 					String senhaNova = JOptionPane.showInputDialog("Digite a nova senha", "senha nova");
-					//session_atual.setSenha(senhaNova);
 					b.client_alterarSenha(senhaAntiga, senhaNova);
 					JOptionPane.showMessageDialog(null, "Senha atualizada com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 				} else {
@@ -129,14 +120,12 @@ public class ClientJPanel extends Painel implements ActionListener {
 				}
 			} catch (NoActiveSessionException ns) {
 				JOptionPane.showMessageDialog(null, ns.to_string(), "Erro", JOptionPane.ERROR_MESSAGE);
+				b.reconfigContentPane(Banco.MAIN);
 			} catch (NullPointerException npe) { }
 			
 		} else if ("logout".equals(e.getActionCommand())) {
-			//setSession(null);
 			b.client_logOut();
 			b.reconfigContentPane(Banco.MAIN);
-			//MainJPanel screen = new MainJPanel(controlling);
-			//Banco.reconfigContentPane(screen);
 		}
 	}
 	

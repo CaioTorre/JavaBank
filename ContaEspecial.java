@@ -26,7 +26,8 @@ public class ContaEspecial extends Conta {
 		}
 	}
 	
-	public void depositar(double valor) {
+	public void depositar(double valor) throws ValorInvalidoException {
+		if (valor <= 0) { throw new ValorInvalidoException(); }
 		if (limite < limiteMax) {
 			limite += valor;
 			if (limite > limiteMax) {

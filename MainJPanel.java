@@ -10,12 +10,7 @@ public class MainJPanel extends Painel implements ActionListener {
 	
 	protected JButton bCliente, bGerente, bSair;
 	
-	//private Banco b;
-	//public void setBancoInstance() { b = Banco.getInstance(); }
-	
 	public MainJPanel() {
-		//controlling = ctrl;
-		
 		Font f = new Font("SansSerif", Font.PLAIN, 28);
 		Border borda = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
 		
@@ -50,8 +45,6 @@ public class MainJPanel extends Painel implements ActionListener {
 		inside.add(bGerente);
 		inside.add(bSair);
 		
-		//inside.setPreferredSize(new Dimension(200, 200));
-		
 		Dimension minSize = new Dimension(1, 50);
 		Dimension prefSize = new Dimension(1, 100);
 		Dimension maxSize = new Dimension(1, 150);
@@ -70,12 +63,8 @@ public class MainJPanel extends Painel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		b = Banco.getInstance();
 		if ("log_cliente".equals(e.getActionCommand())) {
-			//ClientLoginJPanel screen = new ClientLoginJPanel(controlling);
-			//Banco.reconfigContentPane(screen);
 			b.reconfigContentPane(Banco.CLIENT_LOGIN);
 		} else if ("log_gerente".equals(e.getActionCommand())) {
-			//ADMLoginJPanel screen = new ADMLoginJPanel(controlling);
-			//Banco.reconfigContentPane(screen);
 			b.reconfigContentPane(Banco.ADM_LOGIN);
 		} else if ("exit_prog".equals(e.getActionCommand())) {
 			System.exit(0);

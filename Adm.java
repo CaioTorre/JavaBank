@@ -23,70 +23,36 @@ public class Adm {
 	}
 	
 	public boolean getLoginState() { return this.loginState; }
-	
 	public void logOut() { this.loginState = false; }
-	
 	public String getNome() { return this.nome; }
-	
 	public boolean comparaSenha(String tentativa) { return (tentativa.equals(this.pass)); }
 	
-	/*
-	public Conta criarNovaContaSimples(int numero, String nome) throws IDJaEncontradoException {
-		if (this.loginState) {
-			if (b.checkForID(numero)) {
-				throw new IDJaEncontradoException();
-			} else {
-				return b.pushNovaContaSimples(numero, nome);
-			}
-		}
-		return null;
-	}
-	
-	public Conta criarNovaContaEspecial(int numero, String nome, double limite) throws IDJaEncontradoException {
-		if (this.loginState) {
-			if (b.checkForID(numero)) {
-				throw new IDJaEncontradoException();
-			} else {
-				return b.pushNovaContaEspecial(numero, nome, limite);
-			}
-		}
-		return null;
-	}
-	
-	public Conta criarNovaContaPoupanca(int numero, String nome, double juros) throws IDJaEncontradoException {
-		if (this.loginState) {
-			if (b.checkForID(numero)) {
-				throw new IDJaEncontradoException();
-			} else {
-				return b.pushNovaContaPoupanca(numero, nome, juros);
-			}
-		}
-		return null;
-	}
-	*/
-	
-	public String[] getContasString() {
+	public String[] getContasString() throws NoADMSessionException {
 		b = Banco.getInstance();
 		if (this.loginState) {
 			int i;
 			String[] out = new String[b.get_n_contas()];
 			for (i = 0; i < b.get_n_contas(); i++) { out[i] = b.get_contas()[i].to_string(); }
 			return out;
+		} else {
+			throw new NoADMSessionException();
 		}
 		return null;
 	}
 	
-	public void incrementarRendimentos() {
+	public void incrementarRendimentos() throws NoADMSessionException {
 		b = Banco.getInstance();
 		if (this.loginState) {
 			int i;
 			for (i = 0; i < b.get_n_contas(); i++) {
 				b.get_contas()[i].incrementarRendimentos();
 			}
+		} else {
+			throw new NoADMSessionException();
 		}
 	}
 	
-	public int cobrarJuros(double juros) {
+	public int cobrarJuros(double juros) throws NoADMSessionException {
 		b = Banco.getInstance();
 		int cobrados = 0;
 		if (this.loginState) {
@@ -96,6 +62,8 @@ public class Adm {
 					cobrados = cobrados + 1;
 				}
 			}
+		} else {
+			throw new NoADMSessionException();
 		}
 		return cobrados;
 	}

@@ -11,8 +11,6 @@ import java.lang.NullPointerException;
 
 public class ADMNovaContaJPanel extends Painel implements ActionListener {
 	
-	//protected JFrame controlling;
-	
 	protected JLabel lNumero, lNome, lLimite, lJuros;
 	protected JTextField tNumero, tNome, tLimite, tJuros;
 	protected JButton bConfirma, bCancela;
@@ -21,14 +19,7 @@ public class ADMNovaContaJPanel extends Painel implements ActionListener {
 	
 	private int config_tipo = 0;
 	
-	//private Adm a;
-	//private Banco b;
-	//public void setBancoInstance() { b = Banco.getInstance(); }
-	
 	public ADMNovaContaJPanel() {
-		//this.a = adm;
-		//controlling = ctrl;
-		
 		JPanel container = new JPanel();
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 		//=================== SELECAO TIPO DE CONTA ===================
@@ -169,7 +160,6 @@ public class ADMNovaContaJPanel extends Painel implements ActionListener {
 			String campo_erro = "";
 			double limite;
 			double juros;
-			//Conta t = null;
 			
 			try {
 				campo_erro = "Nome";
@@ -179,28 +169,19 @@ public class ADMNovaContaJPanel extends Painel implements ActionListener {
 				numero = Integer.parseInt(tNumero.getText());
 				
 				if (config_tipo == 0) {
-					//t = a.criarNovaContaSimples(numero, nome);
 					b.novaContaS(numero, nome);
 				} else if (config_tipo == 1) {
 					campo_erro = "Limite";
 					limite = Double.parseDouble(tLimite.getText());
-					//t = a.criarNovaContaEspecial(numero, nome, limite);
 					b.novaContaE(numero, nome, limite);
 				} else if (config_tipo == 2) {
 					campo_erro = "Juros";
 					juros = Double.parseDouble(tJuros.getText());
-					//t = a.criarNovaContaPoupanca(numero, nome, juros);
 					b.novaContaP(numero, nome, juros);
 				}
-				
-				//if (t != null) {
-					JOptionPane.showMessageDialog(null, "Sucesso ao criar a conta", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-					//ADMJPanel screen = new ADMJPanel(controlling);
-					//Banco.reconfigContentPane(screen);
-					b.reconfigContentPane(Banco.ADM);
-				//} else {
-					//JOptionPane.showMessageDialog(null, "Falha ao criar a conta", "Erro", JOptionPane.ERROR_MESSAGE);
-				//}
+				JOptionPane.showMessageDialog(null, "Sucesso ao criar a conta", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+				clearFields();
+				b.reconfigContentPane(Banco.ADM);
 				
 			} catch (NumberFormatException ie) {
 				JOptionPane.showMessageDialog(null, "Favor digitar um numero (campo " + campo_erro + ")", "Erro", JOptionPane.ERROR_MESSAGE); 
@@ -208,13 +189,23 @@ public class ADMNovaContaJPanel extends Painel implements ActionListener {
 				JOptionPane.showMessageDialog(null, ide.to_string(), "Erro", JOptionPane.ERROR_MESSAGE); 
 			} catch (StringVaziaException sve) {
 				JOptionPane.showMessageDialog(null, "O campo " + campo_erro + " nao pode estar vazio", "Erro", JOptionPane.ERROR_MESSAGE); 
+			} catch (NoADMSessionException ae) { //Should not happen
+				JOptionPane.showMessageDialog(null, ae.to_string(), "Erro", JOptionPane.ERROR_MESSAGE); 
+				clearFields();
+				b.reconfigContentPane(Banco.MAIN);
 			}
 			
 		} else if (action.equals("config_cancela")) {
-			//ADMJPanel screen = new ADMJPanel(controlling);
-			//Banco.reconfigContentPane(screen);
+			clearFields();
 			b.reconfigContentPane(Banco.ADM);
 		}
+	}
+	
+	private void clearFields() {
+		tNumero.setText("");
+		tNome.setText("");
+		tLimite.setText("");
+		tJuros.setText("");
 	}
 	
 	public void on_update() {}
