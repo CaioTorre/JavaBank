@@ -14,15 +14,19 @@ public abstract class Conta {
 		this.numero = numero;
 		this.nome = nome;
 		this.saldo = 0.0;
-		this.senha = "0000";
+		//this.senha = "0000";
+		Hashing h = Hashing.getInstance();
+		this.senha = h.hash("0000");
 	}
 	
 	public Conta() {
 		this.saldo = 0.0;
-		this.senha = "0000";
+		//this.senha = "0000";
+		Hashing h = Hashing.getInstance();
+		this.senha = h.hash("0000");
 	}
 	
-	public String getSenha() { return this.senha; }
+	//public String getSenha() { return this.senha; }
 	//public void setSenha(String s) { this.senha = s; }
 	
 	public void setNumero(int numero) { this.numero = numero; }
@@ -59,24 +63,20 @@ public abstract class Conta {
 		this.saldo = saldo;
 	}
 	
-	public void alterarSenha(String senhaAntiga, String senhaNova) {
-		//Scanner inp = new Scanner( System.in );
-		//System.out.print("Digite a senha antiga: ");
-		//String senhaAntiga = inp.nextLine();
-		if (comparaSenha(senhaAntiga)) {
-			this.senha = senhaNova;
-			//System.out.print("Digite a nova senha: ");
-			//this.senha = inp.nextLine();
-			//System.out.println("Senha atualizada com sucesso!");
-		} //else {
-			//System.out.println("Senha antiga difere!");
-		//}
-		//System.out.println(spacer);
+	public void alterarSenha(String senhaAntiga, String senhaNova) throws NullPointerException {
+		try {
+			if (comparaSenha(senhaAntiga)) {
+				this.senha = senhaNova;
+			}
+		} catch (NullPointerException npe) {
+			throw npe;
+		}
 	}
 	
 	public boolean comparaSenha(String attempt) throws NullPointerException {
 		try {
-			if (senha.compareTo(attempt) == 0) {
+			Hashing h = Hashing.getInstance();
+			if (senha.equals(h.hash(attempt))) {
 				return true;
 			} else {
 				return false;

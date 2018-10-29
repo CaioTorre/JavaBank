@@ -85,7 +85,7 @@ public class Banco {
 			pushNovaContaSimples(numero, nome);
 			return true;
 		} else { throw new NoADMSessionException(); }
-		return false;
+		//return false;
 	}
 	public boolean novaContaE(int numero, String nome, double limite) throws IDJaEncontradoException, NoADMSessionException {
 		if (master_adm.getLoginState()) {
@@ -93,7 +93,7 @@ public class Banco {
 			pushNovaContaEspecial(numero, nome, limite);
 			return true;
 		} else { throw new NoADMSessionException(); }
-		return false;
+		//return false;
 	}
 	public boolean novaContaP(int numero, String nome, double juros) throws IDJaEncontradoException, NoADMSessionException {
 		if (master_adm.getLoginState()) {
@@ -101,7 +101,7 @@ public class Banco {
 			pushNovaContaPoupanca(numero, nome, juros);
 			return true;
 		} else { throw new NoADMSessionException(); }
-		return false;
+		//return false;
 	}
 	
 	//====================== CRIADORES DE CONTAS PRIVADOS E SEPARADOS ======================

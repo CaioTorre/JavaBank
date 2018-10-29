@@ -10,7 +10,9 @@ public class Adm {
 	
 	public Adm() {
 		user = "root";
-		pass = "toor";
+		//pass = "toor";
+		Hashing h = Hashing.getInstance();
+		this.senha = h.hash("toor");
 		nome = "Gerente";
 	}
 	
@@ -25,7 +27,10 @@ public class Adm {
 	public boolean getLoginState() { return this.loginState; }
 	public void logOut() { this.loginState = false; }
 	public String getNome() { return this.nome; }
-	public boolean comparaSenha(String tentativa) { return (tentativa.equals(this.pass)); }
+	public boolean comparaSenha(String tentativa) { 
+		Hashing h = Hashing.getInstance();
+		return (h.hash(tentativa).equals(this.pass)); 
+	}
 	
 	public String[] getContasString() throws NoADMSessionException {
 		b = Banco.getInstance();
@@ -34,10 +39,8 @@ public class Adm {
 			String[] out = new String[b.get_n_contas()];
 			for (i = 0; i < b.get_n_contas(); i++) { out[i] = b.get_contas()[i].to_string(); }
 			return out;
-		} else {
-			throw new NoADMSessionException();
-		}
-		return null;
+		} else { throw new NoADMSessionException(); }
+		//return null;
 	}
 	
 	public void incrementarRendimentos() throws NoADMSessionException {
