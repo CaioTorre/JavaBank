@@ -66,7 +66,8 @@ public abstract class Conta {
 	public void alterarSenha(String senhaAntiga, String senhaNova) throws NullPointerException {
 		try {
 			if (comparaSenha(senhaAntiga)) {
-				this.senha = senhaNova;
+				Hashing h = Hashing.getInstance();
+				this.senha = h.hash(senhaNova);
 			}
 		} catch (NullPointerException npe) {
 			throw npe;
