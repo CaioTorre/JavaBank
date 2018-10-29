@@ -12,7 +12,7 @@ public class Adm {
 		user = "root";
 		//pass = "toor";
 		Hashing h = Hashing.getInstance();
-		this.senha = h.hash("toor");
+		pass = h.hash("toor");
 		nome = "Gerente";
 	}
 	
