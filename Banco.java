@@ -126,8 +126,10 @@ public class Banco {
 	
 	private Conta findByID(int id) {
 		for (Conta c : contas) { 
-			if (c.getNumero() == id) {
-				return c;
+			if (c != null) {
+				if (c.getNumero() == id) {
+					return c;
+				}
 			}
 		}
 		return null;
@@ -135,7 +137,7 @@ public class Banco {
 	
 	public boolean checkForID(int id) {
 		for (Conta c : contas) {
-			if (c.getNumero() == id) return true;
+			if (c != null) { if (c.getNumero() == id) return true; }
 		}
 		return false;
 	}
