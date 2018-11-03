@@ -55,7 +55,7 @@ public class ClientLoginJPanel extends Painel implements ActionListener {
 		
 		cancelar = new JButton("Cancelar");
 		cancelar.setActionCommand("cancelar_login");
-		cancelar.setMnemonic(KeyEvent.VK_G);
+		cancelar.setMnemonic(KeyEvent.VK_ESCAPE);
 		cancelar.addActionListener(this);
 		cancelar.setFont(f);
 		
@@ -78,16 +78,6 @@ public class ClientLoginJPanel extends Painel implements ActionListener {
 		bigContainer.add(container);
 		
 		add(bigContainer);
-		
-		//b.setDefaultButtonForPane(login);
-		//Banco.getMainFrame().getRootPane().setDefaultButton(login);
-		EventQueue.invokeLater(new Runnable() {
-		   @Override
-			 public void run() {
-				 userField.grabFocus();
-				 userField.requestFocus();
-			 }
-		});
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -99,13 +89,10 @@ public class ClientLoginJPanel extends Painel implements ActionListener {
 				String pass = String.valueOf(passField.getPassword());
 				
 				if (pass.equals("")) { throw new StringVaziaException(); }
-				//Conta c = Banco.tentarLogin(user, pass);
 				
 				if (b.client_tentarLogin(user, pass)) {
 					clearFields();
 					b.reconfigContentPane(Banco.CLIENT);
-					//ClientJPanel screen = new ClientJPanel(controlling, c);
-					//Banco.reconfigContentPane(screen);
 				} else {
 					JOptionPane.showMessageDialog(null, "Combinacao nao reconhecida...", "Alerta", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -119,8 +106,6 @@ public class ClientLoginJPanel extends Painel implements ActionListener {
 		} else if ("cancelar_login".equals(e.getActionCommand())) {
 			clearFields();
 			b.reconfigContentPane(Banco.MAIN);
-			//MainJPanel screen = new MainJPanel(controlling);
-			//Banco.reconfigContentPane(screen);
 		}
 	}
 	
@@ -129,5 +114,15 @@ public class ClientLoginJPanel extends Painel implements ActionListener {
 		passField.setText("");
 	}
 	
-	public void on_update() {}
+	public void on_update() {
+		Banco b = Banco.getInstance();
+		b.setDefaultButtonForPane(login);
+		EventQueue.invokeLater(new Runnable() {
+		   @Override
+			 public void run() {
+				 userField.grabFocus();
+				 userField.requestFocus();
+			 }
+		});
+	}
 }

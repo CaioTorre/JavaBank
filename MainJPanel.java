@@ -1,6 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.*;
+//import javax.swing.border.*;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -12,7 +12,7 @@ public class MainJPanel extends Painel implements ActionListener {
 	
 	public MainJPanel() {
 		Font f = new Font("SansSerif", Font.PLAIN, 28);
-		Border borda = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+		//Border borda = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
 		
 		JPanel container = new JPanel();
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));

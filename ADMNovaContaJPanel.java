@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import java.lang.NumberFormatException;
-import java.lang.NullPointerException;
+//import java.lang.NullPointerException;
 
 public class ADMNovaContaJPanel extends Painel implements ActionListener {
 	

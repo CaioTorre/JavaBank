@@ -1,4 +1,4 @@
-import java.math.BigInteger;
+//import java.math.BigInteger;
 import java.util.Arrays;
 
 public abstract class Hashing {	
@@ -8,10 +8,10 @@ public abstract class Hashing {
 		System.arraycopy(b, 0, c, a.length, b.length);
 		return c;
 	}
-	private static byte[] intToByteArray( final int i ) { //Converts an int into a byte array
-		BigInteger bigInt = BigInteger.valueOf(i);   
-		return bigInt.toByteArray();
-	}
+	//private static byte[] intToByteArray( final int i ) { //Converts an int into a byte array
+	//	BigInteger bigInt = BigInteger.valueOf(i);   
+	//	return bigInt.toByteArray();
+	//}
 	
 	private static int getVal(byte[] arr) { //Gets the integer value of four bytes (from array)
 		return arr[3] + 256 * arr[2] + 256 * 256 * arr[1] + 256 * 256 * 256 * arr[0];
@@ -38,14 +38,14 @@ public abstract class Hashing {
 	public static String hash(String in) {
 		int i;
 		int[] r = new int[64];
-		int[] k = new int[64];
+		long[] k = new long[64];
 		//=================================== INIT HASHING FUNCTION VARIABLES ===================================
-		for (i = 0; i < 64; i++) { k[i] = (int)Math.floor(Math.abs(Math.sin(i + 1)) * Math.pow(2, 32)); }
+		for (i = 0; i < 64; i++) { k[i] = (long)Math.floor(Math.abs(Math.sin(i + 1)) * Math.pow(2, 32)); }
 		
-		int h0 = 0x67452301;
-		int h1 = 0xEFCDAB89;
-		int h2 = 0x98BADCFE;
-		int h3 = 0x10325476;
+		long h0 = (long)Math.floor(0x67452301);
+		long h1 = (long)Math.floor(0xEFCDAB89);
+		long h2 = (long)Math.floor(0x98BADCFE);
+		long h3 = (long)Math.floor(0x10325476);
 		int j, l;
 		
 		int t1[] = {7, 12, 17, 22};
@@ -56,25 +56,44 @@ public abstract class Hashing {
 		for (j = 0; j < 4; j++) {
 			for (i = 0; i < 4; i++) {
 				for (l = 0; l < 4; l++) {
-					if (i == 0) { r[j * 16 + l] = t1[l]; }
-					if (i == 1) { r[j * 16 + l] = t2[l]; }
-					if (i == 2) { r[j * 16 + l] = t3[l]; }
-					if (i == 3) { r[j * 16 + l] = t4[l]; }
+					if (j == 0) { r[j * 16 + i * 4 + l] = t1[l]; }
+					if (j == 1) { r[j * 16 + i * 4 + l] = t2[l]; }
+					if (j == 2) { r[j * 16 + i * 4 + l] = t3[l]; }
+					if (j == 3) { r[j * 16 + i * 4 + l] = t4[l]; }
+					//System.out.printf("i = %d; j = %d; l = %d\t added %d\n", i, j, l, r[j*16 + l]);
 				}
 			}
 		}
 		byte[] msg = in.getBytes();
 		while ((msg.length * 8) % 512 > 0) { msg = catArray(msg, new byte[] {0x00}); } //Should be % 512 < 448, then append original size as integer
 		
-		int a;
-		int b;
-		int c;
-		int d;
-		int f, g;
-		int temp;
+		long a;
+		long b;
+		long c;
+		long d;
+		long f, g;
+		long temp;
 		byte[] current = new byte[64];
 		byte[][] words = new byte[16][4];
 		
+		for (i = 0; i < 8; i ++) {
+			for (j = 0; j < 8; j++) {
+				System.out.printf("\tT[%2d]=%13d", i * 8 + j, k[i * 8 + j]);
+			}
+			System.out.println("");
+		}
+		System.out.println("");
+		
+		for (i = 0; i < 8; i ++) {
+			for (j = 0; j < 8; j++) {
+				System.out.printf("\tr[%2d]=%13d", i * 8 + j, r[i * 8 + j]);
+			}
+			System.out.println("");
+		}
+		System.out.println("");
+		
+		//System.out.printf("A=%d\tB=%d\tC=%d\tD=%d\n", h0, h1, h2, h3);
+		System.out.printf("A=%s\tB=%s\tC=%s\tD=%s\n", Integer.toUnsignedString((int)h0), Integer.toUnsignedString((int)h1), Integer.toUnsignedString((int)h2), Integer.toUnsignedString((int)h3));
 		//=================================== BEGIN HASHING FUNCTION ===================================
 		while (msg.length > 0) {
 			current = Arrays.copyOfRange(msg, 0, 64);		//Pop a new block
@@ -101,8 +120,11 @@ public abstract class Hashing {
 				temp = d;
 				d = c;
 				c = b;
-				b = leftrotate((a + f + k[i] + getVal(words[g])), r[i]) + b;
+				b = leftrotate((int)(a + f + k[i] + getVal(words[(int)g])), r[i]) + b;
 				a = temp;
+				//System.out.printf("[i = %d] A=%d\tB=%d\tC=%d\tD=%d\n", i, a, b, c, d);
+				System.out.printf("[i = %d] A=%s\tB=%s\tC=%s\tD=%s\n", i, Integer.toUnsignedString((int)a), Integer.toUnsignedString((int)b), Integer.toUnsignedString((int)c), Integer.toUnsignedString((int)d));
+				
 			}
 			h0 = h0 + a;
 			h1 = h1 + b;
@@ -110,6 +132,6 @@ public abstract class Hashing {
 			h3 = h3 + d;
 		}
 		
-		return intArrToHex(new int[] {h0, h1, h2, h3}); //Join the 4 ints into a big hexadec string
+		return intArrToHex(new int[] {(int)h0, (int)h1, (int)h2, (int)h3}); //Join the 4 ints into a big hexadec string
 	}
 }

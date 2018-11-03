@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 import java.lang.NullPointerException;
 
 public abstract class Conta {
@@ -14,20 +12,14 @@ public abstract class Conta {
 		this.numero = numero;
 		this.nome = nome;
 		this.saldo = 0.0;
-		//this.senha = "0000";
-		Hashing h = Hashing.getInstance();
-		this.senha = h.hash("0000");
+		this.senha = Hashing.hash("0000");
 	}
 	
 	public Conta() {
 		this.saldo = 0.0;
-		//this.senha = "0000";
-		Hashing h = Hashing.getInstance();
-		this.senha = h.hash("0000");
+		this.senha = Hashing.hash("0000");
 	}
 	
-	//public String getSenha() { return this.senha; }
-	//public void setSenha(String s) { this.senha = s; }
 	
 	public void setNumero(int numero) { this.numero = numero; }
 	public int getNumero() { return numero; }
@@ -66,8 +58,7 @@ public abstract class Conta {
 	public void alterarSenha(String senhaAntiga, String senhaNova) throws NullPointerException {
 		try {
 			if (comparaSenha(senhaAntiga)) {
-				Hashing h = Hashing.getInstance();
-				this.senha = h.hash(senhaNova);
+				this.senha = Hashing.hash(senhaNova);
 			}
 		} catch (NullPointerException npe) {
 			throw npe;
@@ -76,8 +67,9 @@ public abstract class Conta {
 	
 	public boolean comparaSenha(String attempt) throws NullPointerException {
 		try {
-			Hashing h = Hashing.getInstance();
-			if (senha.equals(h.hash(attempt))) {
+			//Hashing h = Hashing.getInstance();
+			//if (senha.equals(h.hash(attempt))) {
+			if (senha.equals(Hashing.hash(attempt))) {
 				return true;
 			} else {
 				return false;

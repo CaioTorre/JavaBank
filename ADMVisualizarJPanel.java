@@ -20,7 +20,7 @@ public class ADMVisualizarJPanel extends Painel implements ActionListener {
 		//repaint();
 		
 		String[] contas_as_strings = b.adm_get_contas_as_strings();
-		int n_contas = b.get_n_contas();
+		//int n_contas = b.get_n_contas();
 		
 		JPanel contas_campo = new JPanel();
 		contas_campo.setSize(400, 400);
@@ -29,11 +29,10 @@ public class ADMVisualizarJPanel extends Painel implements ActionListener {
 		
 		Border borda = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
 		JLabel conta_atual;
-		int i;
-		for (i = 0; i < n_contas; i++) {
+			for (String s : contas_as_strings) {
 			//Usando HTML para inserir quebras de linha dentro do texto
 			//Substitui as quebras de linha tradicionais (\n) por quebras de linha em HTML (<br>) usando RegExp
-			conta_atual = new JLabel("<html><div style='text-align: center;'>" + contas_as_strings[i].replaceAll("\n", "<br>") + "</div></html>");
+			conta_atual = new JLabel("<html><div style='text-align: center;'>" + s.replaceAll("\n", "<br>") + "</div></html>");
 			conta_atual.setHorizontalAlignment(JLabel.CENTER);
 			conta_atual.setBorder(borda);
 			contas_campo.add(conta_atual);

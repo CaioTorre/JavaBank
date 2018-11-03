@@ -1,4 +1,3 @@
-import java.util.Scanner;
 public class ContaEspecial extends Conta {
 	private double limite;
 	private double limiteMax;

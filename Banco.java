@@ -1,12 +1,11 @@
-import java.util.Scanner;
+//import java.util.Scanner;
 import java.awt.Dimension;
-import javax.swing.SwingUtilities;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+//import javax.swing.SwingUtilities;
+//import javax.swing.JOptionPane;
+//import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JButton;
-//import java.util.Exception;
-import java.util.InputMismatchException;
+//import java.util.InputMismatchException;
 
 public class Banco {
 	private Conta contas[] = new Conta[30];
@@ -15,7 +14,6 @@ public class Banco {
 	private Conta session;
 	private Adm master_adm = new Adm();
 	
-	//public static JFrame frame;
 	private JFrame frame;
 	
 	private static Banco self;
@@ -28,13 +26,6 @@ public class Banco {
 	public static final int ADM = 4;
 	public static final int ADM_NOVA_CONTA = 5;
 	public static final int ADM_VISUALIZAR = 6;
-	
-	
-	
-	//public static Adm getADM() { return master_adm; }
-	//public static int getNumero_contas() { return numero_contas; }
-	//public static Conta[] getContas() { return contas; }
-	//public static JFrame getMainFrame() { return frame; }
 	
 	//====================== SINGLETON BANCO ======================
 	public static Banco getInstance() {
@@ -134,35 +125,29 @@ public class Banco {
 	public void setDefaultButtonForPane(JButton but) { frame.getRootPane().setDefaultButton(but); }
 	
 	private Conta findByID(int id) {
-		int i;
-		boolean found = false;
-		Conta session = null;
-		for (i = 0; i < numero_contas && !found; i++) {
-			if (contas[i].getNumero() == id) {
-				found = true;
-				session = contas[i];
+		for (Conta c : contas) { 
+			if (c.getNumero() == id) {
+				return c;
 			}
 		}
-		return session;
+		return null;
 	}
 	
 	public boolean checkForID(int id) {
-		int i;
-		for (i = 0; i < numero_contas; i++) {
-			if (contas[i].getNumero() == id) {
-				return true;
-			}
+		for (Conta c : contas) {
+			if (c.getNumero() == id) return true;
 		}
 		return false;
 	}
 	
 	//====================== FUNCOES FACADE CLIENTE ======================
 	public boolean client_tentarLogin(int user, String pass) {
-		int i;
-		for (i = 0; i < numero_contas; i++) {
-			if (contas[i].getNumero() == user && contas[i].comparaSenha(pass)) {
-				session = contas[i];
-				return true;
+		for (Conta c : contas) {
+			if (c != null) {
+				if (c.getNumero() == user && c.comparaSenha(pass)) {
+					session = c;
+					return true;
+				}
 			}
 		}
 		return false;
@@ -209,8 +194,13 @@ public class Banco {
 	
 	public String adm_client_to_string(int id) throws NullPointerException, ValorInvalidoException {
 		if (id < 0) { throw new ValorInvalidoException(); }
-		Conta t = findByID(id);
-		return t.to_string();
+		//Conta t = findByID(id);
+		//return t.to_string();
+		try {
+			return findByID(id).to_string();
+		} catch (NullPointerException e) {
+			throw e;
+		}
 	}
 	
 	public String[] adm_get_contas_as_strings() {

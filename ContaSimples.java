@@ -1,4 +1,3 @@
-import java.util.Scanner;
 public class ContaSimples extends Conta {
 	
 	public ContaSimples() {

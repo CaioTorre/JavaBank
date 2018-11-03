@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import java.lang.NumberFormatException;
+//import java.lang.NumberFormatException;
 
 public class ADMLoginJPanel extends Painel implements ActionListener {
 
@@ -48,7 +48,7 @@ public class ADMLoginJPanel extends Painel implements ActionListener {
 		
 		cancelar = new JButton("Cancelar");
 		cancelar.setActionCommand("cancelar_login");
-		cancelar.setMnemonic(KeyEvent.VK_G);
+		cancelar.setMnemonic(KeyEvent.VK_ESCAPE);
 		cancelar.addActionListener(this);
 		cancelar.setFont(f);
 		
@@ -71,19 +71,12 @@ public class ADMLoginJPanel extends Painel implements ActionListener {
 		bigContainer.add(container);
 		
 		add(bigContainer);
-		EventQueue.invokeLater(new Runnable() {
-		   @Override
-			 public void run() {
-				 userField.grabFocus();
-				 userField.requestFocus();
-			 }
-		});
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		b = Banco.getInstance();
 		if ("tentar_login".equals(e.getActionCommand())) {
-			int user = 0;
+			//int user = 0;
 			String campo_erro = "Usuario";
 			try {
 				String username = userField.getText();
@@ -112,5 +105,15 @@ public class ADMLoginJPanel extends Painel implements ActionListener {
 		passField.setText("");
 	}
 	
-	public void on_update() {}
+	public void on_update() {
+		Banco b = Banco.getInstance();
+		b.setDefaultButtonForPane(login);
+		EventQueue.invokeLater(new Runnable() {
+		   @Override
+			 public void run() {
+				 userField.grabFocus();
+				 userField.requestFocus();
+			 }
+		});
+	}
 }
