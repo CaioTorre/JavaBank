@@ -42,10 +42,10 @@ public abstract class Hashing {
 		//=================================== INIT HASHING FUNCTION VARIABLES ===================================
 		for (i = 0; i < 64; i++) { k[i] = (long)Math.floor(Math.abs(Math.sin(i + 1)) * Math.pow(2, 32)); }
 		
-		long h0 = (long)Math.floor(0x67452301);
-		long h1 = (long)Math.floor(0xEFCDAB89);
-		long h2 = (long)Math.floor(0x98BADCFE);
-		long h3 = (long)Math.floor(0x10325476);
+		long h0 = 0x67452301L;
+		long h1 = 0xEFCDAB89L;
+		long h2 = 0x98BADCFEL;
+		long h3 = 0x10325476L;
 		int j, l;
 		
 		int t1[] = {7, 12, 17, 22};
@@ -76,24 +76,24 @@ public abstract class Hashing {
 		byte[] current = new byte[64];
 		byte[][] words = new byte[16][4];
 		
-		for (i = 0; i < 8; i ++) {
-			for (j = 0; j < 8; j++) {
-				System.out.printf("\tT[%2d]=%13d", i * 8 + j, k[i * 8 + j]);
-			}
-			System.out.println("");
-		}
-		System.out.println("");
+		//for (i = 0; i < 8; i ++) {
+		//	for (j = 0; j < 8; j++) {
+		//		System.out.printf("\tT[%2d]=%13d", i * 8 + j, k[i * 8 + j]);
+		//	}
+		//	System.out.println("");
+		//}
+		//System.out.println("");
 		
-		for (i = 0; i < 8; i ++) {
-			for (j = 0; j < 8; j++) {
-				System.out.printf("\tr[%2d]=%13d", i * 8 + j, r[i * 8 + j]);
-			}
-			System.out.println("");
-		}
-		System.out.println("");
+		//for (i = 0; i < 8; i ++) {
+		//	for (j = 0; j < 8; j++) {
+		//		System.out.printf("\tr[%2d]=%13d", i * 8 + j, r[i * 8 + j]);
+		//	}
+		//	System.out.println("");
+		//}
+		//System.out.println("");
 		
 		//System.out.printf("A=%d\tB=%d\tC=%d\tD=%d\n", h0, h1, h2, h3);
-		System.out.printf("A=%s\tB=%s\tC=%s\tD=%s\n", Integer.toUnsignedString((int)h0), Integer.toUnsignedString((int)h1), Integer.toUnsignedString((int)h2), Integer.toUnsignedString((int)h3));
+		//System.out.printf("A=%s\tB=%s\tC=%s\tD=%s\n", Integer.toUnsignedString((int)h0), Integer.toUnsignedString((int)h1), Integer.toUnsignedString((int)h2), Integer.toUnsignedString((int)h3));
 		//=================================== BEGIN HASHING FUNCTION ===================================
 		while (msg.length > 0) {
 			current = Arrays.copyOfRange(msg, 0, 64);		//Pop a new block
@@ -123,7 +123,7 @@ public abstract class Hashing {
 				b = leftrotate((int)(a + f + k[i] + getVal(words[(int)g])), r[i]) + b;
 				a = temp;
 				//System.out.printf("[i = %d] A=%d\tB=%d\tC=%d\tD=%d\n", i, a, b, c, d);
-				System.out.printf("[i = %d] A=%s\tB=%s\tC=%s\tD=%s\n", i, Integer.toUnsignedString((int)a), Integer.toUnsignedString((int)b), Integer.toUnsignedString((int)c), Integer.toUnsignedString((int)d));
+				//System.out.printf("[i = %d] A=%s\tB=%s\tC=%s\tD=%s\n", i, Integer.toUnsignedString((int)a), Integer.toUnsignedString((int)b), Integer.toUnsignedString((int)c), Integer.toUnsignedString((int)d));
 				
 			}
 			h0 = h0 + a;

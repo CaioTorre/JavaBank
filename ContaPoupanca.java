@@ -14,7 +14,7 @@ public class ContaPoupanca extends Conta {
 	public String to_string() { return String.format("Conta poupanca #%d\nSr(a). %s\nSaldo: R$%.2f\nJuros: %.2f%%", getNumero(), getNome(), getSaldo(), getJuros()); }
 	
 	public void incrementarRendimentos() {
-		double newSaldo = this.getSaldo() * (1 + this.juros);
+		double newSaldo = this.getSaldo() * (1 + this.juros / 100.0);
 		this.setSaldo(newSaldo);
 	}
 }
